@@ -10,7 +10,7 @@ class CodePayload(BaseModel):
     code: str
 
 
-@app.post("/run")
+@app.post("/")
 async def run_code(payload: CodePayload):
     buffer = io.StringIO()
     try:
