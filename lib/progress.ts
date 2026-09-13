@@ -1,24 +1,22 @@
 "use client";
 
 import type { UserProgress } from "./types";
+import { getSession } from "./auth";
 
-const STORAGE_KEY = "python-course-progress";
-const USER_KEY = "python-course-user-id";
+function progressKey(): string {
+  const session = getSession();
+  return session ? `python-course-progress-${session.id}` : "python-course-progress-guest";
+}
 
 export function getUserKey(): string {
-  if (typeof window === "undefined") return "server";
-  let key = localStorage.getItem(USER_KEY);
-  if (!key) {
-    key = crypto.randomUUID();
-    localStorage.setItem(USER_KEY, key);
-  }
-  return key;
+  const session = getSession();
+  return session?.id ?? "guest";
 }
 
 export function getLocalProgress(): Record<string, UserProgress> {
   if (typeof window === "undefined") return {};
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = localStorage.getItem(progressKey());
     return raw ? JSON.parse(raw) : {};
   } catch {
     return {};
@@ -28,7 +26,7 @@ export function getLocalProgress(): Record<string, UserProgress> {
 export function saveLocalProgress(levelSlug: string, progress: UserProgress): void {
   const all = getLocalProgress();
   all[levelSlug] = progress;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(all));
+  localStorage.setItem(progressKey(), JSON.stringify(all));
 }
 
 export function markLevelComplete(levelSlug: string, code: string): void {
@@ -38,11 +36,6 @@ export function markLevelComplete(levelSlug: string, code: string): void {
     submitted_code: code,
     completed_at: new Date().toISOString(),
   });
-}
-
-export function getCompletedCount(totalLevels: number): number {
-  const progress = getLocalProgress();
-  return Object.values(progress).filter((p) => p.status === "completed").length;
 }
 
 export function getDayProgress(day: number, levelSlugs: string[]): number {

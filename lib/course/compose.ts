@@ -1,4 +1,5 @@
 import type { Level } from "../types";
+import { enrichLevels } from "./enrich";
 import { WEEK4_LEVELS } from "./week4";
 import { WEEK5_LEVELS } from "./week5";
 import { WEEK6_LEVELS } from "./week6";
@@ -29,7 +30,7 @@ const RAW_LEVELS: Level[] = [
  * Week 1 levels 1–2 → Day 1, levels 3–4 → Day 2, etc.
  */
 export function composeLevels(): Level[] {
-  return RAW_LEVELS.map((level) => {
+  const remapped = RAW_LEVELS.map((level) => {
     const week = level.day;
     const sessionIndex = Math.floor((level.index_in_day - 1) / 2);
     const globalDay = (week - 1) * 5 + sessionIndex + 1;
@@ -42,4 +43,5 @@ export function composeLevels(): Level[] {
       index_in_day: indexInDay,
     };
   });
+  return enrichLevels(remapped);
 }

@@ -15,9 +15,9 @@ export const WEEK5_LEVELS: Level[] = [
 In real Python, you use \`open()\` to read files. In this browser playground, we **simulate files** with multiline strings:
 
 \`\`\`python
-file_content = """Line 1
+file_content = —"Line 1
 Line 2
-Line 3"""
+Line 3—"
 
 lines = file_content.split("\\n")
 for line in lines:
@@ -39,8 +39,8 @@ for line in lines:
 | \`.strip()\` | Remove whitespace |
 
 > Treat strings as your virtual files — the processing skills transfer directly!`,
-    starter_code: `# Simulated file content\nlog_file = """2026-01-15 INFO User logged in\n2026-01-15 ERROR Connection failed\n2026-01-15 INFO Report generated"""\n\nlines = log_file.split("\\n")\nprint(f"Total lines: {len(lines)}")\nfor line in lines:\n    print(line)`,
-    solution_code: `log_file = """2026-01-15 INFO User logged in\n2026-01-15 ERROR Connection failed\n2026-01-15 INFO Report generated"""\n\nlines = log_file.split("\\n")\nprint(f"Total lines: {len(lines)}")\nfor line in lines:\n    print(line)`,
+    starter_code: `# Simulated file content\nlog_file = —"2026-01-15 INFO User logged in\n2026-01-15 ERROR Connection failed\n2026-01-15 INFO Report generated—"\n\nlines = log_file.split("\\n")\nprint(f"Total lines: {len(lines)}")\nfor line in lines:\n    print(line)`,
+    solution_code: `log_file = —"2026-01-15 INFO User logged in\n2026-01-15 ERROR Connection failed\n2026-01-15 INFO Report generated—"\n\nlines = log_file.split("\\n")\nprint(f"Total lines: {len(lines)}")\nfor line in lines:\n    print(line)`,
     expected_output: "Total lines: 3\n2026-01-15 INFO User logged in\n2026-01-15 ERROR Connection failed\n2026-01-15 INFO Report generated",
     validation_type: "contains",
     validation_pattern: "Total lines: 3",
@@ -57,9 +57,9 @@ for line in lines:
     lesson_content: `## Reading line by line
 
 \`\`\`python
-data = """apple,10
+data = —"apple,10
 banana,25
-cherry,8"""
+cherry,8—"
 
 for line in data.split("\\n"):
     parts = line.split(",")
@@ -73,8 +73,8 @@ This is exactly how you'd process a CSV file — one row at a time.
 ### Your task
 
 Run the code and observe how each line becomes structured data.`,
-    starter_code: `inventory = """apple,10\nbanana,25\ncherry,8\nmango,15"""\n\ntotal_items = 0\nfor line in inventory.split("\\n"):\n    parts = line.split(",")\n    fruit = parts[0]\n    count = int(parts[1])\n    total_items = total_items + count\n    print(f"{fruit}: {count}")\n\nprint(f"---\\nTotal items: {total_items}")`,
-    solution_code: `inventory = """apple,10\nbanana,25\ncherry,8\nmango,15"""\n\ntotal_items = 0\nfor line in inventory.split("\\n"):\n    parts = line.split(",")\n    fruit = parts[0]\n    count = int(parts[1])\n    total_items = total_items + count\n    print(f"{fruit}: {count}")\n\nprint(f"---\\nTotal items: {total_items}")`,
+    starter_code: `inventory = —"apple,10\nbanana,25\ncherry,8\nmango,15—"\n\ntotal_items = 0\nfor line in inventory.split("\\n"):\n    parts = line.split(",")\n    fruit = parts[0]\n    count = int(parts[1])\n    total_items = total_items + count\n    print(f"{fruit}: {count}")\n\nprint(f"---\\nTotal items: {total_items}")`,
+    solution_code: `inventory = —"apple,10\nbanana,25\ncherry,8\nmango,15—"\n\ntotal_items = 0\nfor line in inventory.split("\\n"):\n    parts = line.split(",")\n    fruit = parts[0]\n    count = int(parts[1])\n    total_items = total_items + count\n    print(f"{fruit}: {count}")\n\nprint(f"---\\nTotal items: {total_items}")`,
     validation_type: "contains",
     validation_pattern: "Total items: 58",
     hints: ["split(',') separates CSV columns.", "int() converts text numbers to integers.", "Accumulate total_items in the loop."],
@@ -92,7 +92,7 @@ Run the code and observe how each line becomes structured data.`,
 Instead of writing to disk, build a string that **represents** file content:
 
 \`\`\`python
-output = ""
+output = —
 output = output + "Name,Score\\n"
 output = output + "Alice,95\\n"
 output = output + "Bob,87\\n"
@@ -127,10 +127,10 @@ Complete the code to generate a CSV report from the scores dictionary.`,
 Given this simulated log file, count how many **ERROR** lines exist:
 
 \`\`\`python
-log = """2026-01-15 INFO Started
+log = —"2026-01-15 INFO Started
 2026-01-15 ERROR Disk full
 2026-01-15 INFO Retrying
-2026-01-15 ERROR Timeout"""
+2026-01-15 ERROR Timeout—"
 \`\`\`
 
 Check if \`"ERROR"\` is in each line using \`"ERROR" in line\`.
@@ -138,8 +138,8 @@ Check if \`"ERROR"\` is in each line using \`"ERROR" in line\`.
 ### Your task
 
 Print the error count and list each error message (the part after "ERROR ").`,
-    starter_code: `log = """2026-01-15 INFO Started\n2026-01-15 ERROR Disk full\n2026-01-15 INFO Retrying\n2026-01-15 ERROR Timeout\n2026-01-15 ERROR Network down\n2026-01-15 INFO Done"""\n\nerror_count = 0\n\nfor line in log.split("\\n"):\n    # Check for ERROR and extract message\n    pass\n\nprint(f"Errors found: {error_count}")`,
-    solution_code: `log = """2026-01-15 INFO Started\n2026-01-15 ERROR Disk full\n2026-01-15 INFO Retrying\n2026-01-15 ERROR Timeout\n2026-01-15 ERROR Network down\n2026-01-15 INFO Done"""\n\nerror_count = 0\n\nfor line in log.split("\\n"):\n    if "ERROR" in line:\n        error_count = error_count + 1\n        message = line.split("ERROR")[1].strip()\n        print(f"  - {message}")\n\nprint(f"Errors found: {error_count}")`,
+    starter_code: `log = —"2026-01-15 INFO Started\n2026-01-15 ERROR Disk full\n2026-01-15 INFO Retrying\n2026-01-15 ERROR Timeout\n2026-01-15 ERROR Network down\n2026-01-15 INFO Done—"\n\nerror_count = 0\n\nfor line in log.split("\\n"):\n    # Check for ERROR and extract message\n    pass\n\nprint(f"Errors found: {error_count}")`,
+    solution_code: `log = —"2026-01-15 INFO Started\n2026-01-15 ERROR Disk full\n2026-01-15 INFO Retrying\n2026-01-15 ERROR Timeout\n2026-01-15 ERROR Network down\n2026-01-15 INFO Done—"\n\nerror_count = 0\n\nfor line in log.split("\\n"):\n    if "ERROR" in line:\n        error_count = error_count + 1\n        message = line.split("ERROR")[1].strip()\n        print(f"  - {message}")\n\nprint(f"Errors found: {error_count}")`,
     validation_type: "contains",
     validation_pattern: "Errors found: 3",
     hints: ['Use if "ERROR" in line:', "split('ERROR')[1] gets text after ERROR.", "strip() removes leading spaces."],
@@ -167,8 +167,8 @@ Parse it with \`.split(",")\` — skip the header row!
 ### Your task
 
 Calculate the total revenue (price × quantity) for all products.`,
-    starter_code: `csv_data = """product,price,quantity\nWidget,9.99,100\nGadget,24.50,50\nTool,15.00,75"""\n\nlines = csv_data.split("\\n")\nheader = lines[0]  # skip this\n\ntotal_revenue = 0\n\nfor line in lines[1:]:\n    # Parse price and quantity, add to total\n    pass\n\nprint(f"Total revenue: \${total_revenue:.2f}")`,
-    solution_code: `csv_data = """product,price,quantity\nWidget,9.99,100\nGadget,24.50,50\nTool,15.00,75"""\n\nlines = csv_data.split("\\n")\ntotal_revenue = 0\n\nfor line in lines[1:]:\n    parts = line.split(",")\n    price = float(parts[1])\n    quantity = int(parts[2])\n    total_revenue = total_revenue + (price * quantity)\n\nprint(f"Total revenue: \${total_revenue:.2f}")`,
+    starter_code: `csv_data = —"product,price,quantity\nWidget,9.99,100\nGadget,24.50,50\nTool,15.00,75—"\n\nlines = csv_data.split("\\n")\nheader = lines[0]  # skip this\n\ntotal_revenue = 0\n\nfor line in lines[1:]:\n    # Parse price and quantity, add to total\n    pass\n\nprint(f"Total revenue: \${total_revenue:.2f}")`,
+    solution_code: `csv_data = —"product,price,quantity\nWidget,9.99,100\nGadget,24.50,50\nTool,15.00,75—"\n\nlines = csv_data.split("\\n")\ntotal_revenue = 0\n\nfor line in lines[1:]:\n    parts = line.split(",")\n    price = float(parts[1])\n    quantity = int(parts[2])\n    total_revenue = total_revenue + (price * quantity)\n\nprint(f"Total revenue: \${total_revenue:.2f}")`,
     validation_type: "contains",
     validation_pattern: "Total revenue: $2749.00",
     hints: ["lines[1:] skips the header row.", "float() for prices, int() for quantities.", "Revenue = price * quantity for each row."],
@@ -237,8 +237,8 @@ Common patterns:
 ### Your task
 
 Find all dates in format YYYY-MM-DD from the log text.`,
-    starter_code: `import re\n\nlog = """2026-01-15 User login\n2026-01-16 Backup complete\n2026-02-01 System update\nNo date here\n2026-03-10 Report sent"""\n\n# Find all dates matching YYYY-MM-DD\n# Pattern hint: \\d{4}-\\d{2}-\\d{2}\ndates = \n\nprint(f"Dates found: {dates}")\nprint(f"Count: {len(dates)}")`,
-    solution_code: `import re\n\nlog = """2026-01-15 User login\n2026-01-16 Backup complete\n2026-02-01 System update\nNo date here\n2026-03-10 Report sent"""\n\ndates = re.findall(r'\\d{4}-\\d{2}-\\d{2}', log)\n\nprint(f"Dates found: {dates}")\nprint(f"Count: {len(dates)}")`,
+    starter_code: `import re\n\nlog = —"2026-01-15 User login\n2026-01-16 Backup complete\n2026-02-01 System update\nNo date here\n2026-03-10 Report sent—"\n\n# Find all dates matching YYYY-MM-DD\n# Pattern hint: \\d{4}-\\d{2}-\\d{2}\ndates = \n\nprint(f"Dates found: {dates}")\nprint(f"Count: {len(dates)}")`,
+    solution_code: `import re\n\nlog = —"2026-01-15 User login\n2026-01-16 Backup complete\n2026-02-01 System update\nNo date here\n2026-03-10 Report sent—"\n\ndates = re.findall(r'\\d{4}-\\d{2}-\\d{2}', log)\n\nprint(f"Dates found: {dates}")\nprint(f"Count: {len(dates)}")`,
     validation_type: "contains",
     validation_pattern: "Count: 4",
     hints: ["Use re.findall(pattern, text)", "Pattern \\d{4}-\\d{2}-\\d{2} matches dates.", "findall returns a list of all matches."],
@@ -262,8 +262,8 @@ Common parsing bugs:
 ### Your task
 
 Fix the code to correctly parse the CSV and print total sales: 450`,
-    starter_code: `csv = """item,sales\nApple,150\nBanana,200\nCherry,100"""\n\ntotal = 0\nfor line in csv.split("\\n"):\n    parts = line.split(" ")\n    total = total + parts[1]\n\nprint(f"Total sales: {total}")`,
-    solution_code: `csv = """item,sales\nApple,150\nBanana,200\nCherry,100"""\n\ntotal = 0\nfor line in csv.split("\\n")[1:]:\n    parts = line.split(",")\n    total = total + int(parts[1])\n\nprint(f"Total sales: {total}")`,
+    starter_code: `csv = —"item,sales\nApple,150\nBanana,200\nCherry,100—"\n\ntotal = 0\nfor line in csv.split("\\n"):\n    parts = line.split(" ")\n    total = total + parts[1]\n\nprint(f"Total sales: {total}")`,
+    solution_code: `csv = —"item,sales\nApple,150\nBanana,200\nCherry,100—"\n\ntotal = 0\nfor line in csv.split("\\n")[1:]:\n    parts = line.split(",")\n    total = total + int(parts[1])\n\nprint(f"Total sales: {total}")`,
     validation_type: "output",
     validation_pattern: "Total sales: 450",
     hints: ["Split by comma, not space.", "Skip header with [1:]", "Convert parts[1] to int before adding."],
@@ -324,8 +324,8 @@ ERROR: 1
 IPs found: ['192.168.1.1', '10.0.0.5']
 Summary JSON: {"total": 4, "errors": 1}
 \`\`\``,
-    starter_code: `import json\nimport re\n\nlog_data = """2026-01-15,INFO,User login from 192.168.1.1\n2026-01-15,WARNING,High memory usage\n2026-01-15,ERROR,Connection refused from 10.0.0.5\n2026-01-15,INFO,Report generated"""\n\n# Count levels\ninfo_count = 0\nwarning_count = 0\nerror_count = 0\n\n# Your parsing logic here\n\n# Extract IPs with regex\n# Build and print JSON summary\n`,
-    solution_code: `import json\nimport re\n\nlog_data = """2026-01-15,INFO,User login from 192.168.1.1\n2026-01-15,WARNING,High memory usage\n2026-01-15,ERROR,Connection refused from 10.0.0.5\n2026-01-15,INFO,Report generated"""\n\ninfo_count = 0\nwarning_count = 0\nerror_count = 0\n\nfor line in log_data.split("\\n"):\n    parts = line.split(",")\n    level = parts[1]\n    if level == "INFO":\n        info_count = info_count + 1\n    elif level == "WARNING":\n        warning_count = warning_count + 1\n    elif level == "ERROR":\n        error_count = error_count + 1\n\nips = re.findall(r'\\d+\\.\\d+\\.\\d+\\.\\d+', log_data)\ntotal = info_count + warning_count + error_count\nsummary = {"total": total, "errors": error_count}\n\nprint("=== Log Analyzer Report ===")\nprint(f"INFO: {info_count}")\nprint(f"WARNING: {warning_count}")\nprint(f"ERROR: {error_count}")\nprint(f"IPs found: {ips}")\nprint(f"Summary JSON: {json.dumps(summary)}")`,
+    starter_code: `import json\nimport re\n\nlog_data = —"2026-01-15,INFO,User login from 192.168.1.1\n2026-01-15,WARNING,High memory usage\n2026-01-15,ERROR,Connection refused from 10.0.0.5\n2026-01-15,INFO,Report generated—"\n\n# Count levels\ninfo_count = 0\nwarning_count = 0\nerror_count = 0\n\n# Your parsing logic here\n\n# Extract IPs with regex\n# Build and print JSON summary\n`,
+    solution_code: `import json\nimport re\n\nlog_data = —"2026-01-15,INFO,User login from 192.168.1.1\n2026-01-15,WARNING,High memory usage\n2026-01-15,ERROR,Connection refused from 10.0.0.5\n2026-01-15,INFO,Report generated—"\n\ninfo_count = 0\nwarning_count = 0\nerror_count = 0\n\nfor line in log_data.split("\\n"):\n    parts = line.split(",")\n    level = parts[1]\n    if level == "INFO":\n        info_count = info_count + 1\n    elif level == "WARNING":\n        warning_count = warning_count + 1\n    elif level == "ERROR":\n        error_count = error_count + 1\n\nips = re.findall(r'\\d+\\.\\d+\\.\\d+\\.\\d+', log_data)\ntotal = info_count + warning_count + error_count\nsummary = {"total": total, "errors": error_count}\n\nprint("=== Log Analyzer Report ===")\nprint(f"INFO: {info_count}")\nprint(f"WARNING: {warning_count}")\nprint(f"ERROR: {error_count}")\nprint(f"IPs found: {ips}")\nprint(f"Summary JSON: {json.dumps(summary)}")`,
     validation_type: "contains",
     validation_pattern: "Log Analyzer Report",
     hints: ["Split each line by comma — level is parts[1].", "re.findall for IP pattern.", "json.dumps(summary) for the JSON output."],

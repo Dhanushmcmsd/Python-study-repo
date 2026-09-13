@@ -12,7 +12,7 @@ export const RAW_WEEK1_3_LEVELS: Level[] = [
     summary: "Understand what Python is and why it powers automation.",
     lesson_content: `## What is Python?
 
-Python is a **programming language** â€” a way to give step-by-step instructions to a computer.
+Python is a **programming language**  -  a way to give step-by-step instructions to a computer.
 
 Think of it like writing a recipe:
 1. Gather ingredients (data)
@@ -21,9 +21,9 @@ Think of it like writing a recipe:
 
 ### Why Python for automation?
 
-- **Readable** â€” looks almost like English
-- **Powerful** â€” used by Google, Netflix, NASA
-- **Perfect for beginners** â€” you can see results immediately
+- **Readable**  -  looks almost like English
+- **Powerful**  -  used by Google, Netflix, NASA
+- **Perfect for beginners**  -  you can see results immediately
 
 ### Your learning path
 
@@ -34,9 +34,9 @@ Each day has **10 levels**. You will:
 - Track your progress
 
 > No prior coding experience needed. Take your time on each level.`,
-    starter_code: `# Welcome! This is a comment â€” Python ignores it.\n# Click "Run code" to see what happens below.\n\nprint("Welcome to Python Automation!")\nprint("You are on Level 1 â€” great start!")`,
-    solution_code: `print("Welcome to Python Automation!")\nprint("You are on Level 1 â€” great start!")`,
-    expected_output: "Welcome to Python Automation!\nYou are on Level 1 â€” great start!",
+    starter_code: `# Welcome! This is a comment  -  Python ignores it.\n# Click "Run code" to see what happens below.\n\nprint("Welcome to Python Automation!")\nprint("You are on Level 1  -  great start!")`,
+    solution_code: `print("Welcome to Python Automation!")\nprint("You are on Level 1  -  great start!")`,
+    expected_output: "Welcome to Python Automation!\nYou are on Level 1  -  great start!",
     validation_type: "contains",
     validation_pattern: "Welcome to Python",
     hints: ["Click the green Run button to execute your code.", "Comments start with # and are ignored by Python."],
@@ -100,7 +100,7 @@ Add a comment above each \`print()\` line explaining what it does.`,
   },
   {
     slug: "day1-level4-variables",
-    title: "Variables â€” Storing Data",
+    title: "Variables  -  Storing Data",
     phase: 1,
     day: 1,
     index_in_day: 4,
@@ -117,7 +117,7 @@ age = 25
 
 - Use \`=\` to assign a value
 - Variable names should be descriptive (use \`user_name\`, not \`x\`)
-- No spaces in names â€” use underscores
+- No spaces in names  -  use underscores
 
 ### Your task
 
@@ -181,7 +181,7 @@ Strings are text values in quotes.
 \`\`\`python
 first = "Hello"
 second = "Python"
-message = first + " " + second
+message = first +  - + second
 print(message)  # Hello Python
 \`\`\`
 
@@ -195,7 +195,7 @@ print(f"Welcome, {name}!")
 ### Your task
 
 Create a greeting that says: \`Hello, my name is [name] and I live in [city].\``,
-    starter_code: `name = "Priya"\ncity = "Delhi"\n\n# Use an f-string to create your greeting\ngreeting = f""\nprint(greeting)`,
+    starter_code: `name = "Priya"\ncity = "Delhi"\n\n# Use an f-string to create your greeting\ngreeting = f - \nprint(greeting)`,
     solution_code: `name = "Priya"\ncity = "Delhi"\ngreeting = f"Hello, my name is {name} and I live in {city}."\nprint(greeting)`,
     validation_type: "contains",
     validation_pattern: "Hello, my name is",
@@ -291,7 +291,7 @@ Write code that:
   },
   {
     slug: "day1-level10-project",
-    title: "Day 1 Project â€” Personal Intro",
+    title: "Day 1 Project  -  Personal Intro",
     phase: 1,
     day: 1,
     index_in_day: 10,
@@ -321,7 +321,7 @@ Let's go!
 \`\`\`
 
 This is your first real mini-program. Take pride in it!`,
-    starter_code: `# Day 1 Project â€” Personal Introduction\n\nname = "Your Name"\ncity = "Your City"\ngoal = "Your goal here"\ndays = 90\n\n# Print your introduction below\n`,
+    starter_code: `# Day 1 Project  -  Personal Introduction\n\nname = "Your Name"\ncity = "Your City"\ngoal = "Your goal here"\ndays = 90\n\n# Print your introduction below\n`,
     solution_code: `name = "Alex"\ncity = "Mumbai"\ngoal = "Automate my daily reports"\ndays = 90\n\nprint("=== My Python Journey ===")\nprint(f"Name: {name}")\nprint(f"City: {city}")\nprint(f"Goal: {goal}")\nprint(f"Days to achieve: {days}")\nprint("Let's go!")`,
     validation_type: "contains",
     validation_pattern: "My Python Journey",
@@ -336,12 +336,12 @@ This is your first real mini-program. Take pride in it!`,
     day: 2,
     index_in_day: 1,
     level_type: "concept",
-    summary: "Learn boolean values â€” the foundation of decisions.",
+    summary: "Learn boolean values  -  the foundation of decisions.",
     lesson_content: `## Booleans
 
 Programs often need to answer yes/no questions. Python uses:
-- \`True\` â€” yes
-- \`False\` â€” no
+- \`True\`  -  yes
+- \`False\`  -  no
 
 \`\`\`python
 is_logged_in = True
@@ -410,7 +410,7 @@ else:
     print("Grade: C")
 \`\`\`
 
-- \`elif\` = "else if" â€” check another condition
+- \`elif\` = "else if"  -  check another condition
 - \`else\` = catch-all when nothing else matched
 
 ### Your task
@@ -589,7 +589,7 @@ Write code that:
   },
   {
     slug: "day2-level10-project",
-    title: "Day 2 Project â€” Expense Tracker",
+    title: "Day 2 Project  -  Expense Tracker",
     phase: 1,
     day: 2,
     index_in_day: 10,
@@ -640,12 +640,12 @@ greet()  # calls the function
 greet()  # call it again
 \`\`\`
 
-Think of functions like a **blender button** â€” press it anytime to get the same result.`,
+Think of functions like a **blender button**  -  press it anytime to get the same result.`,
     starter_code: `def say_hello():\n    print("Hello from a function!")\n    print("Functions save time.")\n\nsay_hello()\nsay_hello()`,
     solution_code: `def say_hello():\n    print("Hello from a function!")\n    print("Functions save time.")\n\nsay_hello()\nsay_hello()`,
     validation_type: "contains",
     validation_pattern: "Hello from a function",
-    hints: ["def starts a function definition.", "Call it with say_hello() â€” include parentheses."],
+    hints: ["def starts a function definition.", "Call it with say_hello()  -  include parentheses."],
   },
   {
     slug: "day3-level2-define-function",
@@ -785,7 +785,7 @@ print(now.strftime("%Y-%m-%d"))
 print(now.strftime("%H:%M"))
 \`\`\`
 
-This is the foundation of **scheduled automation** â€” reports, reminders, backups.`,
+This is the foundation of **scheduled automation**  -  reports, reminders, backups.`,
     starter_code: `from datetime import datetime\n\nnow = datetime.now()\nprint("Today's date:", now.strftime("%Y-%m-%d"))\nprint("Current time:", now.strftime("%H:%M"))\nprint("Report generated successfully!")`,
     solution_code: `from datetime import datetime\n\nnow = datetime.now()\nprint("Today's date:", now.strftime("%Y-%m-%d"))\nprint("Current time:", now.strftime("%H:%M"))\nprint("Report generated successfully!")`,
     validation_type: "contains",
@@ -866,7 +866,7 @@ Then print the result for title="Sales" and value=5000.`,
   },
   {
     slug: "day3-level10-project",
-    title: "Day 3 Project â€” Daily Report Generator",
+    title: "Day 3 Project  -  Daily Report Generator",
     phase: 1,
     day: 3,
     index_in_day: 10,
@@ -874,13 +874,13 @@ Then print the result for title="Sales" and value=5000.`,
     summary: "Build an automated daily report script.",
     lesson_content: `## Day 3 Project ðŸŽ¯
 
-Build a **Daily Report Generator** â€” your first automation tool!
+Build a **Daily Report Generator**  -  your first automation tool!
 
 ### Requirements
 
-1. Function \`generate_header()\` â€” prints report header with today's date
-2. Function \`add_metric(name, value)\` â€” prints each metric
-3. Function \`generate_footer(total)\` â€” prints summary
+1. Function \`generate_header()\`  -  prints report header with today's date
+2. Function \`add_metric(name, value)\`  -  prints each metric
+3. Function \`generate_footer(total)\`  -  prints summary
 4. Main code that reports 3 metrics and a total
 
 ### Expected format

@@ -9,17 +9,18 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        brand: {
-          50: "#ecfdf5",
-          100: "#d1fae5",
-          400: "#34d399",
-          500: "#10b981",
-          600: "#059669",
+        hack: {
+          bg: "#0a0a0a",
+          panel: "#0d1110",
+          border: "#1a2e1a",
+          green: "#00ff41",
+          dim: "#4a6a4a",
+          amber: "#ffb000",
+          cyan: "#00d4aa",
         },
       },
       fontFamily: {
-        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
-        mono: ["var(--font-mono)", "Consolas", "monospace"],
+        mono: ["var(--font-mono)", "Consolas", "Courier New", "monospace"],
       },
     },
   },

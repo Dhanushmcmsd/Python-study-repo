@@ -25,17 +25,17 @@ When calling AI APIs, your **prompt** determines the quality of results.
 ### Good prompt template
 
 \`\`\`python
-prompt = f"""Role: {role}
+prompt = f—"Role: {role}
 Task: {task}
 Format: {output_format}
 
 Input: {user_text}
-"""
+—"
 \`\`\`
 
 In this course we **simulate** AI responses with Python logic — same patterns, no network calls.`,
-    starter_code: `role = "You are a helpful classifier."\ntask = "Label the text as positive or negative."\noutput_format = '{"sentiment": "positive|negative"}'\nuser_text = "I love this product!"\n\nprompt = f"""Role: {role}\nTask: {task}\nFormat: {output_format}\n\nInput: {user_text}\n"""\n\nprint("=== Generated Prompt ===")\nprint(prompt)`,
-    solution_code: `role = "You are a helpful classifier."\ntask = "Label the text as positive or negative."\noutput_format = '{"sentiment": "positive|negative"}'\nuser_text = "I love this product!"\n\nprompt = f"""Role: {role}\nTask: {task}\nFormat: {output_format}\n\nInput: {user_text}\n"""\n\nprint("=== Generated Prompt ===")\nprint(prompt)`,
+    starter_code: `role = "You are a helpful classifier."\ntask = "Label the text as positive or negative."\noutput_format = '{"sentiment": "positive|negative"}'\nuser_text = "I love this product!"\n\nprompt = f—"Role: {role}\nTask: {task}\nFormat: {output_format}\n\nInput: {user_text}\n—"\n\nprint("=== Generated Prompt ===")\nprint(prompt)`,
+    solution_code: `role = "You are a helpful classifier."\ntask = "Label the text as positive or negative."\noutput_format = '{"sentiment": "positive|negative"}'\nuser_text = "I love this product!"\n\nprompt = f—"Role: {role}\nTask: {task}\nFormat: {output_format}\n\nInput: {user_text}\n—"\n\nprint("=== Generated Prompt ===")\nprint(prompt)`,
     validation_type: "contains",
     validation_pattern: "Generated Prompt",
     hints: ["Run to see the full prompt structure.", "Each section guides the AI clearly."],
@@ -58,8 +58,8 @@ def build_prompt(role, task, fmt, text):
 \`\`\`
 
 Run the example — it builds a support-ticket classifier prompt.`,
-    starter_code: `def build_prompt(role, task, fmt, text):\n    return f"""Role: {role}\nTask: {task}\nFormat: {fmt}\n\nInput: {text}\n"""\n\nprompt = build_prompt(\n    role="Support ticket classifier",\n    task="Choose billing, technical, or other",\n    fmt='{"category": "..."}',\n    text="My payment failed but I was charged.",\n)\n\nprint(prompt)`,
-    solution_code: `def build_prompt(role, task, fmt, text):\n    return f"""Role: {role}\nTask: {task}\nFormat: {fmt}\n\nInput: {text}\n"""\n\nprompt = build_prompt(\n    role="Support ticket classifier",\n    task="Choose billing, technical, or other",\n    fmt='{"category": "..."}',\n    text="My payment failed but I was charged.",\n)\n\nprint(prompt)`,
+    starter_code: `def build_prompt(role, task, fmt, text):\n    return f—"Role: {role}\nTask: {task}\nFormat: {fmt}\n\nInput: {text}\n—"\n\nprompt = build_prompt(\n    role="Support ticket classifier",\n    task="Choose billing, technical, or other",\n    fmt='{"category": "..."}',\n    text="My payment failed but I was charged.",\n)\n\nprint(prompt)`,
+    solution_code: `def build_prompt(role, task, fmt, text):\n    return f—"Role: {role}\nTask: {task}\nFormat: {fmt}\n\nInput: {text}\n—"\n\nprompt = build_prompt(\n    role="Support ticket classifier",\n    task="Choose billing, technical, or other",\n    fmt='{"category": "..."}',\n    text="My payment failed but I was charged.",\n)\n\nprint(prompt)`,
     validation_type: "contains",
     validation_pattern: "payment failed",
     hints: ["build_prompt combines all sections.", "Run to inspect the full prompt."],
@@ -82,7 +82,7 @@ The prompt below is too vague. Improve it by adding:
 
 Print the improved prompt.`,
     starter_code: `text = "The delivery was late and the box was damaged."\n\n# Too vague — improve this prompt\nprompt = f"Classify this: {text}"\n\nprint(prompt)`,
-    solution_code: `text = "The delivery was late and the box was damaged."\n\nprompt = f"""Role: Sentiment analyst\nTask: Classify sentiment as positive or negative\nFormat: {{"sentiment": "positive|negative"}}\n\nInput: {text}\n"""\n\nprint(prompt)`,
+    solution_code: `text = "The delivery was late and the box was damaged."\n\nprompt = f—"Role: Sentiment analyst\nTask: Classify sentiment as positive or negative\nFormat: {{"sentiment": "positive|negative"}}\n\nInput: {text}\n—"\n\nprint(prompt)`,
     validation_type: "contains",
     validation_pattern: "Sentiment analyst",
     hints: ["Use a multi-line f-string.", "Include Role, Task, Format sections.", "End with Input: {text}."],
@@ -290,7 +290,7 @@ other: 1
 Done
 \`\`\``,
     starter_code: `import json\n\ntickets = [\n    "I was charged twice for my plan",\n    "Login page shows a 500 error",\n    "Can I get a refund?",\n    "What are your business hours?",\n]\n\ndef build_prompt(text):\n    pass\n\ndef classify(text):\n    pass\n\n# Process tickets and print summary\n`,
-    solution_code: `import json\n\ntickets = [\n    "I was charged twice for my plan",\n    "Login page shows a 500 error",\n    "Can I get a refund?",\n    "What are your business hours?",\n]\n\ndef build_prompt(text):\n    return f"""Role: Support classifier\nTask: Route to billing, technical, or other\nFormat: {{"category": "..."}}\n\nInput: {text}\n"""\n\ndef classify(text):\n    t = text.lower()\n    if any(w in t for w in ["refund", "charge", "bill", "payment"]):\n        return "billing"\n    if any(w in t for w in ["error", "bug", "crash", "server"]):\n        return "technical"\n    return "other"\n\nprint("=== Ticket Router ===")\ncounts = {"billing": 0, "technical": 0, "other": 0}\n\nfor ticket in tickets:\n    prompt = build_prompt(ticket)\n    category = classify(ticket)\n    counts[category] += 1\n\nfor cat, n in counts.items():\n    print(f"{cat}: {n}")\nprint("Done")`,
+    solution_code: `import json\n\ntickets = [\n    "I was charged twice for my plan",\n    "Login page shows a 500 error",\n    "Can I get a refund?",\n    "What are your business hours?",\n]\n\ndef build_prompt(text):\n    return f—"Role: Support classifier\nTask: Route to billing, technical, or other\nFormat: {{"category": "..."}}\n\nInput: {text}\n—"\n\ndef classify(text):\n    t = text.lower()\n    if any(w in t for w in ["refund", "charge", "bill", "payment"]):\n        return "billing"\n    if any(w in t for w in ["error", "bug", "crash", "server"]):\n        return "technical"\n    return "other"\n\nprint("=== Ticket Router ===")\ncounts = {"billing": 0, "technical": 0, "other": 0}\n\nfor ticket in tickets:\n    prompt = build_prompt(ticket)\n    category = classify(ticket)\n    counts[category] += 1\n\nfor cat, n in counts.items():\n    print(f"{cat}: {n}")\nprint("Done")`,
     validation_type: "contains",
     validation_pattern: "Done",
     hints: ["Use a counts dict to track categories.", "any(w in t for w in list) checks keywords.", "Print each category count then Done."],

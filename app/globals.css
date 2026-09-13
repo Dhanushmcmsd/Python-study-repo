@@ -3,32 +3,109 @@
 @tailwind utilities;
 
 @layer base {
-  html {
-    scroll-behavior: smooth;
+  html, body {
+    height: 100%;
   }
 
   body {
-    @apply bg-slate-950 text-slate-50 antialiased;
+    @apply bg-hack-bg text-hack-green;
+  }
+
+  ::selection {
+    background: rgba(0, 255, 65, 0.25);
+    color: #00ff41;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0a0a0a;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #1a3a1a;
   }
 }
 
-@layer utilities {
-  .gradient-text {
-    @apply bg-gradient-to-r from-brand-400 to-emerald-300 bg-clip-text text-transparent;
+@layer components {
+  .terminal-panel {
+    @apply border border-hack-border bg-hack-panel;
   }
-}
 
-/* Linked editor line highlight */
-.active-line-highlight {
-  background: rgba(16, 185, 129, 0.08) !important;
-  border-left: 2px solid #10b981;
-}
+  .hack-input {
+    @apply border border-hack-border bg-hack-bg px-3 py-2 font-mono text-sm text-hack-green outline-none;
+    @apply focus:border-hack-green focus:ring-1 focus:ring-hack-green/30;
+  }
 
-.active-line-glyph {
-  background: #10b981;
-  border-radius: 50%;
-  width: 8px !important;
-  height: 8px !important;
-  margin-left: 8px;
-  margin-top: 6px;
+  .hack-btn {
+    @apply border border-hack-green bg-hack-green/10 px-4 py-2 font-mono text-sm text-hack-green;
+    @apply hover:bg-hack-green/20 active:bg-hack-green/30 disabled:opacity-40;
+  }
+
+  .hack-btn-ghost {
+    @apply border border-hack-border px-3 py-1 font-mono text-hack-dim;
+    @apply hover:border-hack-green hover:text-hack-green;
+  }
+
+  .glow-text {
+    text-shadow: 0 0 10px rgba(0, 255, 65, 0.4);
+  }
+
+  .scanlines::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.03) 2px,
+      rgba(0, 0, 0, 0.03) 4px
+    );
+  }
+
+  .prose-hack {
+    @apply font-mono text-xs leading-relaxed text-hack-dim;
+  }
+  .prose-hack h2 {
+    @apply mb-2 mt-4 text-sm text-hack-green;
+  }
+  .prose-hack h3 {
+    @apply mb-1 mt-3 text-xs text-hack-amber;
+  }
+  .prose-hack p {
+    @apply mb-2;
+  }
+  .prose-hack ul, .prose-hack ol {
+    @apply mb-2 ml-4 list-disc;
+  }
+  .prose-hack li {
+    @apply mb-1;
+  }
+  .prose-hack code {
+    @apply bg-hack-bg px-1 text-hack-cyan;
+  }
+  .prose-hack pre {
+    @apply my-2 border border-hack-border bg-hack-bg p-3 text-hack-green overflow-x-auto;
+  }
+  .prose-hack strong {
+    @apply text-hack-green;
+  }
+  .prose-hack blockquote {
+    @apply border-l-2 border-hack-green/40 pl-3 text-hack-dim;
+  }
+  .prose-hack table {
+    @apply w-full border-collapse text-xs;
+  }
+  .prose-hack th, .prose-hack td {
+    @apply border border-hack-border px-2 py-1;
+  }
+
+  .active-line-highlight {
+    background: rgba(0, 255, 65, 0.06) !important;
+    border-left: 2px solid #00ff41;
+  }
 }

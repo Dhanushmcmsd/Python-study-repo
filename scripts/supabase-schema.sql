@@ -1,5 +1,10 @@
 -- Python Automation Course — Supabase Schema
--- Run this in Supabase SQL Editor before seeding levels
+
+CREATE TABLE IF NOT EXISTS public.students (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  display_name TEXT UNIQUE NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
 
 CREATE TABLE IF NOT EXISTS public.levels (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -36,8 +41,15 @@ CREATE TABLE IF NOT EXISTS public.user_progress (
 CREATE INDEX IF NOT EXISTS idx_levels_day ON public.levels (day, index_in_day);
 CREATE INDEX IF NOT EXISTS idx_user_progress_user_key ON public.user_progress (user_key);
 
+ALTER TABLE public.students ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.levels ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.user_progress ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Students readable"
+  ON public.students FOR SELECT USING (true);
+
+CREATE POLICY "Students insertable"
+  ON public.students FOR INSERT WITH CHECK (true);
 
 -- Public read access for course levels
 CREATE POLICY "Levels are publicly readable"

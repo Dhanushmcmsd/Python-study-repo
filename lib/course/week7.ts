@@ -132,7 +132,7 @@ tasks = [
     solution_code: `tasks = [\n    {"time": "09:00", "action": "backup_db"},\n    {"time": "12:00", "action": "send_digest"},\n    {"time": "17:00", "action": "cleanup_temp"},\n]\n\nfor task in tasks:\n    print(f"Run at {task['time']}: {task['action']}")`,
     validation_type: "contains",
     validation_pattern: "Run at 17:00: cleanup_temp",
-    hints: ["Each task is a dict with 'time' and 'action' keys.", "Use a for loop to iterate tasks.", "f-string: f\"Run at {task['time']}: {task['action']}\""],
+    hints: ["Each task is a dict with 'time' and 'action' keys.", "Use a for loop to iterate tasks.", "Use an f-string with task['time'] and task['action']."],
   },
   {
     slug: "week7-level5-retry-loops",

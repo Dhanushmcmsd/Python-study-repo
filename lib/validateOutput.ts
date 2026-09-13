@@ -5,10 +5,16 @@ export function validateSubmission(level: Level, output: string, code: string): 
   message: string;
 } {
   const trimmedOutput = output.trim();
+  const trimmedCode = code.trim();
+
+  if (!trimmedCode) {
+    return { passed: false, message: "Type the code from the lesson challenge first." };
+  }
+
   const type = level.validation_type;
 
   if (type === "none") {
-    return { passed: true, message: "Code ran successfully!" };
+    return { passed: true, message: "[OK] Code executed without errors." };
   }
 
   const pattern = level.validation_pattern ?? level.expected_output ?? "";
@@ -16,27 +22,23 @@ export function validateSubmission(level: Level, output: string, code: string): 
   if (type === "output") {
     const expected = pattern.trim();
     if (trimmedOutput === expected) {
-      return { passed: true, message: "Perfect! Output matches exactly." };
+      return { passed: true, message: "[OK] Output matches exactly. Access granted." };
     }
     return {
       passed: false,
-      message: `Expected output:\n${expected}\n\nYour output:\n${trimmedOutput || "(empty)"}`,
+      message: `Expected:\n${expected}\n\nGot:\n${trimmedOutput || "(empty)"}`,
     };
   }
 
   if (type === "contains") {
     if (pattern && trimmedOutput.includes(pattern)) {
-      return { passed: true, message: "Great job! Your output looks correct." };
-    }
-    if (pattern && code.includes(pattern.split(" ")[0])) {
-      // Also check code contains key elements for concept levels
-      return { passed: true, message: "Nice work!" };
+      return { passed: true, message: "[OK] Output verified. Mission complete." };
     }
     return {
       passed: false,
-      message: `Your output should contain: "${pattern}"`,
+      message: `Output should contain: "${pattern}"`,
     };
   }
 
-  return { passed: true, message: "Code executed." };
+  return { passed: true, message: "[OK] Code executed." };
 }

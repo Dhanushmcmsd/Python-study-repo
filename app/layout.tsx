@@ -1,12 +1,6 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
-import Navbar from "./components/Navbar";
+import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-});
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -14,20 +8,14 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Python Automation Course | Learn to Code from Zero",
-  description:
-    "12-week interactive Python course for beginners. 60 learning days with live coding, line-by-line explanations, and progress tracking.",
+  title: "Python Automation | Terminal Training",
+  description: "12-week hacker-style Python course. Type code, run it, learn why.",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
-      <body className="font-sans">
-        <Navbar />
+    <html lang="en" className={jetbrainsMono.variable}>
+      <body className="font-mono bg-hack-bg text-hack-green antialiased">
         {children}
       </body>
     </html>
