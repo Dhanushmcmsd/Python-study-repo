@@ -2,6 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply bg-slate-950 text-slate-50;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-slate-950 text-slate-50 antialiased;
+  }
+}
+
+@layer utilities {
+  .gradient-text {
+    @apply bg-gradient-to-r from-brand-400 to-emerald-300 bg-clip-text text-transparent;
+  }
+}
+
+/* Linked editor line highlight */
+.active-line-highlight {
+  background: rgba(16, 185, 129, 0.08) !important;
+  border-left: 2px solid #10b981;
+}
+
+.active-line-glyph {
+  background: #10b981;
+  border-radius: 50%;
+  width: 8px !important;
+  height: 8px !important;
+  margin-left: 8px;
+  margin-top: 6px;
 }
