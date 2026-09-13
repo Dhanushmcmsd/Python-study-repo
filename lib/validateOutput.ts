@@ -1,44 +1,49 @@
 import type { Level } from "./types";
+import { extractConstructs, missingConstructs } from "./constructs";
 
 export function validateSubmission(level: Level, output: string, code: string): {
   passed: boolean;
   message: string;
 } {
-  const trimmedOutput = output.trim();
+  return validateAgainstReference(level.solution_code, output, code, {
+    requireOutput: Boolean((level.expected_output ?? level.validation_pattern ?? "").trim())
+      || /\bprint\s*\(/.test(level.solution_code),
+  });
+}
+
+export function validateAgainstReference(
+  referenceCode: string,
+  output: string,
+  code: string,
+  options?: { requireOutput?: boolean }
+): { passed: boolean; message: string } {
   const trimmedCode = code.trim();
+  const trimmedOutput = output.trim();
 
   if (!trimmedCode) {
-    return { passed: false, message: "Type the code from the lesson challenge first." };
+    return { passed: false, message: "Type working Python that uses today's tools first." };
   }
 
-  const type = level.validation_type;
+  const required = extractConstructs(referenceCode);
+  const student = extractConstructs(trimmedCode);
+  const missing = missingConstructs(required, student);
 
-  if (type === "none") {
-    return { passed: true, message: "[OK] Code executed without errors." };
-  }
-
-  const pattern = level.validation_pattern ?? level.expected_output ?? "";
-
-  if (type === "output") {
-    const expected = pattern.trim();
-    if (trimmedOutput === expected) {
-      return { passed: true, message: "[OK] Output matches exactly. Access granted." };
-    }
+  if (missing.length > 0) {
     return {
       passed: false,
-      message: `Expected:\n${expected}\n\nGot:\n${trimmedOutput || "(empty)"}`,
+      message: `Use the same Python tools as the lesson (strings and numbers can change): ${missing.join(", ")}`,
     };
   }
 
-  if (type === "contains") {
-    if (pattern && trimmedOutput.includes(pattern)) {
-      return { passed: true, message: "[OK] Output verified. Mission complete." };
-    }
+  if (options?.requireOutput && !trimmedOutput) {
     return {
       passed: false,
-      message: `Output should contain: "${pattern}"`,
+      message: "Your code ran, but printed nothing. Use print() so you can see the result.",
     };
   }
 
-  return { passed: true, message: "[OK] Code executed." };
+  return {
+    passed: true,
+    message: "Required functions and structures ran correctly. Strings and numbers can differ.",
+  };
 }

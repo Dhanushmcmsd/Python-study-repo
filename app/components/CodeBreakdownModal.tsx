@@ -23,7 +23,7 @@ export default function CodeBreakdownModal({ breakdown, onClose }: CodeBreakdown
 
         <div className="space-y-4 p-4">
           <p className="font-mono text-xs text-hack-dim">
-            Each token in your code explained. Study this to remember what you typed.
+            Each token in the code you wrote, explained. Change the text or numbers next time — the tools stay the same.
           </p>
 
           {breakdown.map((line) => (

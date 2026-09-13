@@ -13,7 +13,7 @@ Take a moment to read each line in the code challenge below. Understanding *why*
 - If it fails, read the error — errors tell you exactly what went wrong
 
 ## Stretch Goal
-After completing the challenge, change one string or number and run again. Notice how the output changes.`,
+Change strings, numbers, and messages. The mission still passes if the same Python tools (print, if, for, def, ...) run correctly.`,
   run: `
 
 ## Your Mission
@@ -81,10 +81,12 @@ export function enrichLevel(level: Level): Level {
 ${level.solution_code}
 \`\`\`
 
-**Expected output:**
+**Sample output** (yours can differ if you change text or numbers):
 \`\`\`
 ${level.expected_output ?? level.validation_pattern ?? "Run your code to see output"}
 \`\`\`
+
+Use the same functions and structures as the challenge. Exact wording is not required.
 `;
 
   return {

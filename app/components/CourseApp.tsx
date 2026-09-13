@@ -5,7 +5,7 @@ import { LogOut, Terminal } from "lucide-react";
 import { COURSE_DAYS } from "@/lib/course/days";
 import { LEVELS, getLevelsByDay } from "@/lib/courseContent";
 import { getSession, clearSession, type StudentSession } from "@/lib/auth";
-import { getDayProgress, isLevelCompleted } from "@/lib/progress";
+import { getDayProgress, isLevelCompleted, areDayLevelsComplete, isDayBugFixed } from "@/lib/progress";
 import LoginScreen from "./LoginScreen";
 import LessonWorkspace from "./LessonWorkspace";
 
@@ -147,7 +147,12 @@ export default function CourseApp() {
                                 ))}
                               </div>
                             </div>
-                            <div className="shrink-0 font-mono text-xs text-hack-dim">{progress}%</div>
+                            <div className="shrink-0 text-right">
+                              {areDayLevelsComplete(slugs) && !isDayBugFixed(dayInfo.day) && (
+                                <div className="mb-1 font-mono text-[10px] text-red-400">BUG FIX</div>
+                              )}
+                              <div className="font-mono text-xs text-hack-dim">{progress}%</div>
+                            </div>
                           </button>
                         </div>
                       );

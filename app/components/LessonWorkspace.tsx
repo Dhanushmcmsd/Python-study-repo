@@ -9,9 +9,24 @@ import type { Level } from "@/lib/types";
 import { buildWalkthrough, getLineNote } from "@/lib/codeWalkthrough";
 import { breakdownCode } from "@/lib/tokenExplainer";
 import { validateSubmission } from "@/lib/validateOutput";
-import { markLevelComplete, getUserKey } from "@/lib/progress";
-import { syncProgressToSupabase } from "@/lib/levels";
+import {
+  markLevelComplete,
+  getUserKey,
+  areDayLevelsComplete,
+  isDayBugFixed,
+  getStoredDayBug,
+  saveStoredDayBug,
+  markDayBugComplete,
+} from "@/lib/progress";
+import {
+  syncProgressToSupabase,
+  loadDayBugFromSupabase,
+  upsertDayBugToSupabase,
+  completeDayBugInSupabase,
+} from "@/lib/levels";
+import { generateDayBugChallenge, type BugChallenge } from "@/lib/bugChallenge";
 import CodeBreakdownModal from "./CodeBreakdownModal";
+import BugFixModal from "./BugFixModal";
 
 declare global {
   interface Window {
@@ -43,6 +58,10 @@ export default function LessonWorkspace({
   const [feedback, setFeedback] = useState("");
   const [activeLine, setActiveLine] = useState(1);
   const [showBreakdown, setShowBreakdown] = useState(false);
+  const [showBugFix, setShowBugFix] = useState(false);
+  const [bugChallenge, setBugChallenge] = useState<BugChallenge | null>(null);
+  const [bugBusy, setBugBusy] = useState(false);
+  const [dayGateMessage, setDayGateMessage] = useState("");
   const [pyodideReady, setPyodideReady] = useState(false);
   const pyodideRef = useRef<PyodideInterface | null>(null);
   const editorRef = useRef<MonacoEditor.IStandaloneCodeEditor | null>(null);
@@ -63,6 +82,8 @@ export default function LessonWorkspace({
     setStatus("idle");
     setActiveLine(1);
     setShowBreakdown(false);
+    setShowBugFix(false);
+    setDayGateMessage("");
   }, [level.slug]);
 
   useEffect(() => {
@@ -141,8 +162,8 @@ export default function LessonWorkspace({
       if (validation.passed) {
         setStatus("success");
         markLevelComplete(level.slug, code);
-        await syncProgressToSupabase(getUserKey(), level.slug, code);
         setShowBreakdown(true);
+        void syncProgressToSupabase(getUserKey(), level.slug, code);
       } else {
         setStatus("idle");
       }
@@ -153,10 +174,90 @@ export default function LessonWorkspace({
     }
   }, [code, level, pyodideReady]);
 
+  const executePython = useCallback(async (source: string): Promise<{ output: string; error?: string }> => {
+    const pyodide = pyodideRef.current;
+    if (!pyodideReady || !pyodide) return { output: "", error: "Python runtime is not ready." };
+    try {
+      await pyodide.runPythonAsync(`import sys\nfrom io import StringIO\nsys.stdout = StringIO()\nsys.stderr = sys.stdout`);
+      await pyodide.runPythonAsync(source);
+      const result = (pyodide.runPython("sys.stdout.getvalue()") as string) || "";
+      return { output: result };
+    } catch (err) {
+      return { output: "", error: String(err) };
+    }
+  }, [pyodideReady]);
+
+  const openDayBoss = useCallback(() => {
+    const slugs = dayLevels.map((l) => l.slug);
+    if (!areDayLevelsComplete(slugs)) {
+      setDayGateMessage("Finish every mission today before the BUG FIX encounter.");
+      return;
+    }
+    if (isDayBugFixed(level.day)) {
+      onBack();
+      return;
+    }
+
+    const userKey = getUserKey();
+    let challenge = getStoredDayBug(level.day);
+    if (!challenge) {
+      challenge = generateDayBugChallenge(userKey, level.day, dayLevels);
+      saveStoredDayBug(challenge);
+    }
+    setBugChallenge(challenge);
+    setShowBugFix(true);
+
+    void (async () => {
+      const remote = await loadDayBugFromSupabase(userKey, level.day);
+      if (remote?.status === "completed") {
+        markDayBugComplete(level.day, "");
+        setShowBugFix(false);
+        onBack();
+        return;
+      }
+      if (remote) {
+        const synced = {
+          day: level.day,
+          incidentId: remote.incident_id,
+          buggyCode: remote.buggy_code,
+          referenceCode: remote.reference_code,
+        };
+        saveStoredDayBug(synced);
+        setBugChallenge(synced);
+      } else if (challenge) {
+        await upsertDayBugToSupabase(userKey, challenge);
+      }
+    })();
+  }, [dayLevels, level.day, onBack]);
+
+  const finishDayBoss = useCallback(async (patchedCode: string) => {
+    const userKey = getUserKey();
+    markDayBugComplete(level.day, patchedCode);
+    setShowBugFix(false);
+    void completeDayBugInSupabase(userKey, level.day, patchedCode);
+    onBack();
+  }, [level.day, onBack]);
+
   return (
     <div className="flex h-full flex-col">
       {showBreakdown && (
         <CodeBreakdownModal breakdown={breakdown} onClose={() => setShowBreakdown(false)} />
+      )}
+      {showBugFix && bugChallenge && (
+        <BugFixModal
+          challenge={bugChallenge}
+          executing={bugBusy}
+          onExecute={async (src) => {
+            setBugBusy(true);
+            try {
+              return await executePython(src);
+            } finally {
+              setBugBusy(false);
+            }
+          }}
+          onPatched={finishDayBoss}
+          onClose={() => setShowBugFix(false)}
+        />
       )}
 
       <div className="flex items-center justify-between border-b border-hack-border px-4 py-2">
@@ -273,9 +374,14 @@ export default function LessonWorkspace({
             {nextLevel.title} <ChevronRight className="inline h-3 w-3" />
           </button>
         ) : (
-          <button onClick={onBack} className="font-mono text-xs text-hack-green hover:underline">
-            DAY COMPLETE →
-          </button>
+          <div className="flex flex-col items-end gap-1">
+            {dayGateMessage && (
+              <span className="font-mono text-[10px] text-red-400">{dayGateMessage}</span>
+            )}
+            <button onClick={openDayBoss} className="font-mono text-xs text-hack-green hover:underline">
+              {isDayBugFixed(level.day) ? "DAY COMPLETE →" : "DAY COMPLETE → BUG FIX"}
+            </button>
+          </div>
         )}
       </div>
     </div>
