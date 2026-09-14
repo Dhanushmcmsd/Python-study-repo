@@ -14,10 +14,16 @@ import {
   getUserKey,
   areDayLevelsComplete,
   isDayBugFixed,
+  isDayPracticalComplete,
+  markDayPracticalComplete,
   getStoredDayBug,
   saveStoredDayBug,
   markDayBugComplete,
 } from "@/lib/progress";
+import { getPracticalTask } from "@/lib/course/practicalTasks";
+import CodeBreakdownModal from "./CodeBreakdownModal";
+import BugFixModal from "./BugFixModal";
+import PracticalTaskModal from "./PracticalTaskModal";
 import {
   syncProgressToSupabase,
   loadDayBugFromSupabase,
@@ -25,9 +31,6 @@ import {
   completeDayBugInSupabase,
 } from "@/lib/levels";
 import { generateDayBugChallenge, type BugChallenge } from "@/lib/bugChallenge";
-import CodeBreakdownModal from "./CodeBreakdownModal";
-import BugFixModal from "./BugFixModal";
-import ProjectShipPanel from "./ProjectShipPanel";
 import { PYTHON_RUNTIME_PRELUDE } from "@/lib/pythonRuntime";
 
 declare global {
@@ -63,6 +66,8 @@ export default function LessonWorkspace({
   const [showBugFix, setShowBugFix] = useState(false);
   const [bugChallenge, setBugChallenge] = useState<BugChallenge | null>(null);
   const [bugBusy, setBugBusy] = useState(false);
+  const [showPractical, setShowPractical] = useState(false);
+  const [practicalBusy, setPracticalBusy] = useState(false);
   const [dayGateMessage, setDayGateMessage] = useState("");
   const [pyodideReady, setPyodideReady] = useState(false);
   const pyodideRef = useRef<PyodideInterface | null>(null);
@@ -71,6 +76,7 @@ export default function LessonWorkspace({
 
   const walkthrough = useMemo(() => buildWalkthrough(code || level.solution_code, level), [code, level]);
   const currentNote = getLineNote(walkthrough, activeLine);
+  const practicalTask = useMemo(() => getPracticalTask(level.day), [level.day]);
   const breakdown = useMemo(() => breakdownCode(code), [code]);
 
   const currentIndex = dayLevels.findIndex((l) => l.slug === level.slug);
@@ -85,6 +91,7 @@ export default function LessonWorkspace({
     setActiveLine(1);
     setShowBreakdown(false);
     setShowBugFix(false);
+    setShowPractical(false);
     setDayGateMessage("");
   }, [level.slug]);
 
@@ -176,30 +183,26 @@ export default function LessonWorkspace({
     }
   }, [code, level, pyodideReady]);
 
-  const executePython = useCallback(async (source: string): Promise<{ output: string; error?: string }> => {
-    const pyodide = pyodideRef.current;
-    if (!pyodideReady || !pyodide) return { output: "", error: "Python runtime is not ready." };
-    try {
-      await pyodide.runPythonAsync(`import sys\nfrom io import StringIO\nsys.stdout = StringIO()\nsys.stderr = sys.stdout`);
-      await pyodide.runPythonAsync(`${PYTHON_RUNTIME_PRELUDE}\n${source}`);
-      const result = (pyodide.runPython("sys.stdout.getvalue()") as string) || "";
-      return { output: result };
-    } catch (err) {
-      return { output: "", error: String(err) };
-    }
-  }, [pyodideReady]);
+  const executePython = useCallback(
+    async (source: string, fileText = ""): Promise<{ output: string; error?: string }> => {
+      const pyodide = pyodideRef.current;
+      if (!pyodideReady || !pyodide) return { output: "", error: "Python runtime is not ready." };
+      try {
+        await pyodide.runPythonAsync(
+          `import sys\nfrom io import StringIO\nsys.stdout = StringIO()\nsys.stderr = sys.stdout`
+        );
+        const fileInjection = fileText ? `FILE_TEXT = ${JSON.stringify(fileText)}\n` : "";
+        await pyodide.runPythonAsync(`${PYTHON_RUNTIME_PRELUDE}\n${fileInjection}${source}`);
+        const result = (pyodide.runPython("sys.stdout.getvalue()") as string) || "";
+        return { output: result };
+      } catch (err) {
+        return { output: "", error: String(err) };
+      }
+    },
+    [pyodideReady]
+  );
 
-  const openDayBoss = useCallback(() => {
-    const slugs = dayLevels.map((l) => l.slug);
-    if (!areDayLevelsComplete(slugs)) {
-      setDayGateMessage("Finish every mission today before the BUG FIX encounter.");
-      return;
-    }
-    if (isDayBugFixed(level.day)) {
-      onBack();
-      return;
-    }
-
+  const openBugFix = useCallback(() => {
     const userKey = getUserKey();
     let challenge = getStoredDayBug(level.day);
     if (!challenge) {
@@ -232,6 +235,37 @@ export default function LessonWorkspace({
     })();
   }, [dayLevels, level.day, onBack]);
 
+  const openDayBoss = useCallback(() => {
+    const slugs = dayLevels.map((l) => l.slug);
+    if (!areDayLevelsComplete(slugs)) {
+      setDayGateMessage("Finish both levels today before BUILD IT.");
+      return;
+    }
+    if (isDayBugFixed(level.day)) {
+      onBack();
+      return;
+    }
+    if (!isDayPracticalComplete(level.day)) {
+      if (!practicalTask) {
+        setDayGateMessage("Practical task missing for this day.");
+        return;
+      }
+      setShowPractical(true);
+      return;
+    }
+    openBugFix();
+  }, [dayLevels, level.day, onBack, openBugFix, practicalTask]);
+
+  const finishPractical = useCallback(
+    (practicalCode: string) => {
+      markDayPracticalComplete(level.day, practicalCode);
+      void syncProgressToSupabase(getUserKey(), `day-${level.day}-practical`, practicalCode);
+      setShowPractical(false);
+      openBugFix();
+    },
+    [level.day, openBugFix]
+  );
+
   const finishDayBoss = useCallback(async (patchedCode: string) => {
     const userKey = getUserKey();
     markDayBugComplete(level.day, patchedCode);
@@ -244,6 +278,22 @@ export default function LessonWorkspace({
     <div className="flex h-full flex-col">
       {showBreakdown && (
         <CodeBreakdownModal breakdown={breakdown} onClose={() => setShowBreakdown(false)} />
+      )}
+      {showPractical && practicalTask && (
+        <PracticalTaskModal
+          task={practicalTask}
+          executing={practicalBusy}
+          onExecute={async (src, fileText) => {
+            setPracticalBusy(true);
+            try {
+              return await executePython(src, fileText);
+            } finally {
+              setPracticalBusy(false);
+            }
+          }}
+          onComplete={finishPractical}
+          onClose={() => setShowPractical(false)}
+        />
       )}
       {showBugFix && bugChallenge && (
         <BugFixModal
@@ -306,7 +356,6 @@ export default function LessonWorkspace({
             </div>
           )}
 
-          {level.slug === "week12-level10-project" && <ProjectShipPanel />}
         </div>
 
         {/* RIGHT: editor + output */}
@@ -383,7 +432,11 @@ export default function LessonWorkspace({
               <span className="font-mono text-[10px] text-red-400">{dayGateMessage}</span>
             )}
             <button onClick={openDayBoss} className="font-mono text-xs text-hack-green hover:underline">
-              {isDayBugFixed(level.day) ? "DAY COMPLETE →" : "DAY COMPLETE → BUG FIX"}
+              {isDayBugFixed(level.day)
+                ? "DAY COMPLETE →"
+                : !isDayPracticalComplete(level.day)
+                  ? "DAY COMPLETE → BUILD IT"
+                  : "DAY COMPLETE → BUG FIX"}
             </button>
           </div>
         )}

@@ -3,6 +3,7 @@
 import type { UserProgress } from "./types";
 import { getSession } from "./auth";
 import { dayBugSlug, type BugChallenge } from "./bugChallenge";
+import { dayPracticalSlug } from "./practicalTask";
 
 function progressKey(): string {
   const session = getSession();
@@ -41,7 +42,7 @@ export function markLevelComplete(levelSlug: string, code: string): void {
 
 export function getDayProgress(day: number, levelSlugs: string[]): number {
   const progress = getLocalProgress();
-  const tracked = [...levelSlugs, dayBugSlug(day)];
+  const tracked = [...levelSlugs, dayPracticalSlug(day), dayBugSlug(day)];
   const completed = tracked.filter((slug) => progress[slug]?.status === "completed").length;
   return Math.round((completed / tracked.length) * 100);
 }
@@ -52,6 +53,14 @@ export function isLevelCompleted(slug: string): boolean {
 
 export function areDayLevelsComplete(levelSlugs: string[]): boolean {
   return levelSlugs.length > 0 && levelSlugs.every((slug) => isLevelCompleted(slug));
+}
+
+export function isDayPracticalComplete(day: number): boolean {
+  return isLevelCompleted(dayPracticalSlug(day));
+}
+
+export function markDayPracticalComplete(day: number, code: string): void {
+  markLevelComplete(dayPracticalSlug(day), code);
 }
 
 export function isDayBugFixed(day: number): boolean {

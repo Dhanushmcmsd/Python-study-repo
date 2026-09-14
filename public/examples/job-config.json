@@ -1,0 +1,9 @@
+{
+  "job_name": "daily_sync",
+  "max_retries": 3,
+  "tasks": [
+    "fetch",
+    "upload",
+    "notify"
+  ]
+}

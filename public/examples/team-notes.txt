@@ -1,0 +1,3 @@
+name=Alex Chen
+city=Mumbai
+role=Analyst

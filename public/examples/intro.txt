@@ -1,0 +1,3 @@
+Welcome to the team.
+Your first task is to run this script.
+Good luck.
