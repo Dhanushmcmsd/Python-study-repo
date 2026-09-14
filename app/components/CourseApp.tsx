@@ -142,7 +142,7 @@ export default function CourseApp() {
                                         : "border-hack-border text-hack-dim"
                                     }`}
                                   >
-                                    {isLevelCompleted(l.slug) ? "✓ " : ""}{l.title}
+                                    {isLevelCompleted(l.slug) ? "[done] " : ""}{l.title}
                                   </span>
                                 ))}
                               </div>

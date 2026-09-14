@@ -1,7 +1,7 @@
 ﻿import type { Level } from "../types";
 
 export const RAW_WEEK1_3_LEVELS: Level[] = [
-  // â”€â”€ DAY 1 â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // DAY 1
   {
     slug: "day1-level1-welcome",
     title: "Welcome to Python",
@@ -27,11 +27,11 @@ Think of it like writing a recipe:
 
 ### Your learning path
 
-Each day has **10 levels**. You will:
-- Read a short lesson
-- Run live code examples
-- Complete hands-on exercises
-- Track your progress
+This is a **12-week** path (60 study days, 2 missions per day). You will:
+- Read a short lesson written for real work, not toy puzzles
+- Type and run live Python in the browser (Python 3.12+ style)
+- From week 6 onward, call **real HTTPS APIs** (weather, users, HTML)
+- Finish by shipping **DocPack** — compress documents, push to GitHub, deploy
 
 > No prior coding experience needed. Take your time on each level.`,
     starter_code: `# Welcome! This is a comment  -  Python ignores it.\n# Click "Run code" to see what happens below.\n\nprint("Welcome to Python Automation!")\nprint("You are on Level 1  -  great start!")`,
@@ -291,13 +291,13 @@ Write code that:
   },
   {
     slug: "day1-level10-project",
-    title: "Day 1 Project  -  Personal Intro",
+    title: "Day 1 Project -  Personal Intro",
     phase: 1,
     day: 1,
     index_in_day: 10,
     level_type: "project",
     summary: "Build a personal introduction script.",
-    lesson_content: `## Day 1 Project ðŸŽ¯
+    lesson_content: `## Day 1 Project
 
 Combine everything you learned today!
 
@@ -321,14 +321,14 @@ Let's go!
 \`\`\`
 
 This is your first real mini-program. Take pride in it!`,
-    starter_code: `# Day 1 Project  -  Personal Introduction\n\nname = "Your Name"\ncity = "Your City"\ngoal = "Your goal here"\ndays = 90\n\n# Print your introduction below\n`,
+    starter_code: `# Day 1 Project -  Personal Introduction\n\nname = "Your Name"\ncity = "Your City"\ngoal = "Your goal here"\ndays = 90\n\n# Print your introduction below\n`,
     solution_code: `name = "Alex"\ncity = "Mumbai"\ngoal = "Automate my daily reports"\ndays = 90\n\nprint("=== My Python Journey ===")\nprint(f"Name: {name}")\nprint(f"City: {city}")\nprint(f"Goal: {goal}")\nprint(f"Days to achieve: {days}")\nprint("Let's go!")`,
     validation_type: "contains",
     validation_pattern: "My Python Journey",
     hints: ["Use multiple print() statements.", "Use f-strings for lines with variables.", "Include the header line exactly."],
   },
 
-  // â”€â”€ DAY 2 â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // DAY 2
   {
     slug: "day2-level1-booleans",
     title: "True & False",
@@ -589,13 +589,13 @@ Write code that:
   },
   {
     slug: "day2-level10-project",
-    title: "Day 2 Project  -  Expense Tracker",
+    title: "Day 2 Project -  Expense Tracker",
     phase: 1,
     day: 2,
     index_in_day: 10,
     level_type: "project",
     summary: "Build a simple expense tracking script.",
-    lesson_content: `## Day 2 Project ðŸŽ¯
+    lesson_content: `## Day 2 Project
 
 Build an expense tracker that:
 1. Has a list of expenses: [500, 1200, 75, 300, 890]
@@ -617,7 +617,7 @@ Status: Review needed
     hints: ["Use a loop with if e > 200 to count.", "sum(expenses) gives the total quickly."],
   },
 
-  // â”€â”€ DAY 3 â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // DAY 3
   {
     slug: "day3-level1-functions-intro",
     title: "What Are Functions?",
@@ -866,13 +866,13 @@ Then print the result for title="Sales" and value=5000.`,
   },
   {
     slug: "day3-level10-project",
-    title: "Day 3 Project  -  Daily Report Generator",
+    title: "Day 3 Project -  Daily Report Generator",
     phase: 1,
     day: 3,
     index_in_day: 10,
     level_type: "project",
     summary: "Build an automated daily report script.",
-    lesson_content: `## Day 3 Project ðŸŽ¯
+    lesson_content: `## Day 3 Project
 
 Build a **Daily Report Generator**  -  your first automation tool!
 

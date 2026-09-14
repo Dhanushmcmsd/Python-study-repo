@@ -13,6 +13,7 @@ const KEYWORD_CHECKS: { id: string; re: RegExp; label: string }[] = [
   { id: "with", re: /\bwith\b/, label: "with" },
   { id: "lambda", re: /\blambda\b/, label: "lambda" },
   { id: "f-string", re: /f["']/, label: "f-string" },
+  { id: "await", re: /\bawait\b/, label: "await" },
 ];
 
 const BUILTIN_CHECKS = [
@@ -42,6 +43,8 @@ const BUILTIN_CHECKS = [
   "filter",
   "any",
   "all",
+  "fetch_json",
+  "fetch_text",
 ];
 
 const METHOD_CHECKS = [
@@ -65,6 +68,8 @@ const METHOD_CHECKS = [
   "sort",
   "pop",
   "update",
+  "writestr",
+  "encode",
 ];
 
 export interface CodeConstructs {

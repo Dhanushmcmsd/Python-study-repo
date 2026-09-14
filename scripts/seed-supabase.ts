@@ -55,9 +55,9 @@ async function main() {
     );
 
     if (error) {
-      console.error(`✗ ${level.slug}:`, error.message);
+      console.error(`fail ${level.slug}:`, error.message);
     } else {
-      console.log(`✓ ${level.slug}`);
+      console.log(`ok ${level.slug}`);
     }
   }
 

@@ -202,7 +202,9 @@ print(json_output)
 | \`json.loads()\` | JSON string → Python |
 | \`json.dumps()\` | Python → JSON string |
 
-Run the code to see JSON in action!`,
+Run the code to see JSON in action.
+
+Next week you will **not** paste JSON — you will \`await fetch_json(url)\` against live public APIs.`,
     starter_code: `import json\n\n# JSON string → Python dict\nuser_json = '{"name": "Alex", "age": 28, "skills": ["Python", "SQL"]}'\nuser = json.loads(user_json)\n\nprint(f"Name: {user['name']}")\nprint(f"Skills: {user['skills']}")\n\n# Python dict → JSON string\nprofile = {"city": "Mumbai", "active": True}\noutput = json.dumps(profile, indent=2)\nprint(output)`,
     solution_code: `import json\n\nuser_json = '{"name": "Alex", "age": 28, "skills": ["Python", "SQL"]}'\nuser = json.loads(user_json)\n\nprint(f"Name: {user['name']}")\nprint(f"Skills: {user['skills']}")\n\nprofile = {"city": "Mumbai", "active": True}\noutput = json.dumps(profile, indent=2)\nprint(output)`,
     validation_type: "contains",
@@ -302,7 +304,7 @@ Expected output includes "Alice: alice@test.com" and "Valid: True" for each.`,
     index_in_day: 10,
     level_type: "project",
     summary: "Build a log analyzer using CSV, JSON, and regex.",
-    lesson_content: `## Week 5 Project 🎯
+    lesson_content: `## Week 5 Project
 
 Build a **Log Analyzer** that processes simulated server logs!
 

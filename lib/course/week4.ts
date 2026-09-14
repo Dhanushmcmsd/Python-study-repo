@@ -311,7 +311,7 @@ Use try/except is not needed here — focus on the class!`,
     index_in_day: 10,
     level_type: "project",
     summary: "Build a library system with classes and custom exceptions.",
-    lesson_content: `## Week 4 Project 🎯
+    lesson_content: `## Week 4 Project
 
 Build a mini **Library System** using OOP and error handling!
 

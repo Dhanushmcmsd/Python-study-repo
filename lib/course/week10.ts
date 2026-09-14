@@ -29,9 +29,9 @@ def simulate_ai(prompt):
 ### Pipeline mindset
 
 Each step is a **pure function**: input in, output out. Chain them together for powerful automation scripts.`,
-    starter_code: `# AI pipeline preview — run to see the flow\n\ndef simulate_ai(text):\n    return {"summary": f"Processed {len(text)} chars"}\n\ndocument = "Quarterly sales report for Q3."\nresult = simulate_ai(document)\nprint(result["summary"])\nprint("Pipeline step complete ✓")`,
-    solution_code: `def simulate_ai(text):\n    return {"summary": f"Processed {len(text)} chars"}\n\ndocument = "Quarterly sales report for Q3."\nresult = simulate_ai(document)\nprint(result["summary"])\nprint("Pipeline step complete ✓")`,
-    expected_output: "Processed 32 chars\nPipeline step complete ✓",
+    starter_code: `# AI pipeline preview — run to see the flow\n\ndef simulate_ai(text):\n    return {"summary": f"Processed {len(text)} chars"}\n\ndocument = "Quarterly sales report for Q3."\nresult = simulate_ai(document)\nprint(result["summary"])\nprint("Pipeline step complete")`,
+    solution_code: `def simulate_ai(text):\n    return {"summary": f"Processed {len(text)} chars"}\n\ndocument = "Quarterly sales report for Q3."\nresult = simulate_ai(document)\nprint(result["summary"])\nprint("Pipeline step complete")`,
+    expected_output: "Processed 32 chars\nPipeline step complete ",
     validation_type: "contains",
     validation_pattern: "Pipeline step complete",
     hints: ["Click Run to execute the pipeline preview.", "Each step returns data the next step can use."],
@@ -260,7 +260,7 @@ Build a mini pipeline:
     index_in_day: 10,
     level_type: "project",
     summary: "Build a complete document-to-report AI automation pipeline.",
-    lesson_content: `## Week 10 Project 🎯
+    lesson_content: `## Week 10 Project
 
 Build a **Document AI Pipeline** that processes feedback documents.
 

@@ -18,7 +18,6 @@ export interface CourseDay {
   topics: string[];
   learningGoals: string[];
   estimatedMinutes: number;
-  emoji: string;
   weekTitle: string;
 }
 

@@ -89,7 +89,7 @@
     @apply bg-hack-bg px-1 text-hack-cyan;
   }
   .prose-hack pre {
-    @apply my-2 border border-hack-border bg-hack-bg p-3 text-hack-green overflow-x-auto;
+    @apply my-2 border border-hack-border bg-hack-bg p-3 text-hack-green overflow-x-auto whitespace-pre-wrap break-all max-w-full;
   }
   .prose-hack strong {
     @apply text-hack-green;

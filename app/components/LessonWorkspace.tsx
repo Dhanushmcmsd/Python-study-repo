@@ -27,6 +27,8 @@ import {
 import { generateDayBugChallenge, type BugChallenge } from "@/lib/bugChallenge";
 import CodeBreakdownModal from "./CodeBreakdownModal";
 import BugFixModal from "./BugFixModal";
+import ProjectShipPanel from "./ProjectShipPanel";
+import { PYTHON_RUNTIME_PRELUDE } from "@/lib/pythonRuntime";
 
 declare global {
   interface Window {
@@ -152,7 +154,7 @@ export default function LessonWorkspace({
 
     try {
       await pyodide.runPythonAsync(`import sys\nfrom io import StringIO\nsys.stdout = StringIO()\nsys.stderr = sys.stdout`);
-      await pyodide.runPythonAsync(code);
+      await pyodide.runPythonAsync(`${PYTHON_RUNTIME_PRELUDE}\n${code}`);
       const result = pyodide.runPython("sys.stdout.getvalue()") as string;
       setOutput(result || "(no output)");
 
@@ -179,7 +181,7 @@ export default function LessonWorkspace({
     if (!pyodideReady || !pyodide) return { output: "", error: "Python runtime is not ready." };
     try {
       await pyodide.runPythonAsync(`import sys\nfrom io import StringIO\nsys.stdout = StringIO()\nsys.stderr = sys.stdout`);
-      await pyodide.runPythonAsync(source);
+      await pyodide.runPythonAsync(`${PYTHON_RUNTIME_PRELUDE}\n${source}`);
       const result = (pyodide.runPython("sys.stdout.getvalue()") as string) || "";
       return { output: result };
     } catch (err) {
@@ -303,6 +305,8 @@ export default function LessonWorkspace({
               </ul>
             </div>
           )}
+
+          {level.slug === "week12-level10-project" && <ProjectShipPanel />}
         </div>
 
         {/* RIGHT: editor + output */}

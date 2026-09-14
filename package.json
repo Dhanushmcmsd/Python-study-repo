@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "seed": "npx tsx scripts/seed-supabase.ts",
-    "seed:sql": "npx tsx scripts/generate-seed-sql.ts"
+    "seed": "npx tsx scripts/seed-supabase.ts"
   },
   "dependencies": {
     "@monaco-editor/react": "^4.6.0",

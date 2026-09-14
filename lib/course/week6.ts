@@ -1,248 +1,218 @@
 import type { Level } from "../types";
 
 export const WEEK6_LEVELS: Level[] = [
-  // ── WEEK 6: APIs & Web Scraping ────────────────────────────────────
   {
     slug: "week6-level1-api-intro",
-    title: "APIs & JSON Responses",
+    title: "APIs & Live JSON",
     phase: 2,
     day: 6,
     index_in_day: 1,
     level_type: "concept",
-    summary: "Understand APIs and how JSON carries data over the web.",
+    summary: "Call a public HTTPS weather API and read the live JSON it returns.",
     lesson_content: `## What is an API?
 
-An **API** (Application Programming Interface) lets programs talk to each other. When you check the weather on your phone, an API fetches data from a server.
+An **API** lets programs request data over the internet. Your phone weather app does this every time you open it.
 
-APIs usually return **JSON** — structured text that's easy to parse:
+This playground gives you \`fetch_json(url)\` — it performs a real HTTPS GET and returns Python data (same idea as \`requests.get(url).json()\` on your laptop).
 
-\`\`\`json
-{
-  "city": "Mumbai",
-  "temperature": 32,
-  "humidity": 75
-}
-\`\`\`
+### Open-Meteo (no API key)
 
-In Python:
 \`\`\`python
-import json
-
-# Simulated API response (normally from requests.get())
-api_response = '{"city": "Mumbai", "temperature": 32}'
-data = json.loads(api_response)
-print(data["city"])
+url = "https://api.open-meteo.com/v1/forecast?latitude=28.6139&longitude=77.2090&current=temperature_2m"
+data = await fetch_json(url)
+print(data["current"]["temperature_2m"])
 \`\`\`
 
-> In this course we **simulate** API responses with JSON strings — no network needed!`,
-    starter_code: `import json\n\n# Simulated weather API response\napi_response = '{"city": "Mumbai", "temperature": 32, "humidity": 75, "condition": "Sunny"}'\n\ndata = json.loads(api_response)\nprint(f"Weather in {data['city']}")\nprint(f"Temperature: {data['temperature']}°C")\nprint(f"Condition: {data['condition']}")`,
-    solution_code: `import json\n\napi_response = '{"city": "Mumbai", "temperature": 32, "humidity": 75, "condition": "Sunny"}'\n\ndata = json.loads(api_response)\nprint(f"Weather in {data['city']}")\nprint(f"Temperature: {data['temperature']}°C")\nprint(f"Condition: {data['condition']}")`,
-    expected_output: "Weather in Mumbai\nTemperature: 32°C\nCondition: Sunny",
+Numbers change with the real weather. That is the point.
+
+> Use \`await\` — the network call is not instant.`,
+    starter_code: `url = "https://api.open-meteo.com/v1/forecast?latitude=28.6139&longitude=77.2090&current=temperature_2m,weather_code"\ndata = await fetch_json(url)\ncurrent = data["current"]\nprint("Weather in Delhi")\nprint(f"Temperature: {current['temperature_2m']}°C")\nprint(f"Weather code: {current['weather_code']}")`,
+    solution_code: `url = "https://api.open-meteo.com/v1/forecast?latitude=28.6139&longitude=77.2090&current=temperature_2m,weather_code"\ndata = await fetch_json(url)\ncurrent = data["current"]\nprint("Weather in Delhi")\nprint(f"Temperature: {current['temperature_2m']}°C")\nprint(f"Weather code: {current['weather_code']}")`,
     validation_type: "contains",
-    validation_pattern: "Weather in Mumbai",
-    hints: ["json.loads() converts JSON string to a dict.", "Access values with data['key'].", "Real APIs return similar JSON structures."],
+    validation_pattern: "Weather in Delhi",
+    hints: ["await fetch_json(url) waits for the live response.", "Live temperature is under data['current']['temperature_2m'].", "Need a different city? Change latitude and longitude."],
   },
   {
     slug: "week6-level2-parse-api",
-    title: "Parsing API Responses",
+    title: "Parsing a Real User Profile",
     phase: 2,
     day: 6,
     index_in_day: 2,
     level_type: "run",
-    summary: "Extract fields from a simulated API JSON response.",
-    lesson_content: `## Parsing API data
+    summary: "Read nested fields from JSONPlaceholder user 1.",
+    lesson_content: `## Nested JSON from a real API
 
-API responses often nest data inside objects:
+[JSONPlaceholder](https://jsonplaceholder.typicode.com) is a free fake REST API with real HTTP responses — perfect for practice.
 
 \`\`\`python
-response = '{"status": "ok", "data": {"user": "alex", "score": 950}}'
-parsed = json.loads(response)
-user = parsed["data"]["user"]
+user = await fetch_json("https://jsonplaceholder.typicode.com/users/1")
+print(user["name"])
+print(user["address"]["city"])
 \`\`\`
 
-Access nested data with chained brackets: \`parsed["data"]["user"]\`
+Chain keys the same way you would after \`requests.get(...).json()\`.
 
 ### Your task
 
-Run the code and explore the user profile API response.`,
-    starter_code: `import json\n\napi_response = '{"status": "success", "data": {"id": 42, "username": "alex_dev", "email": "alex@example.com", "stats": {"posts": 15, "followers": 230}}}'\n\nparsed = json.loads(api_response)\nuser = parsed["data"]\n\nprint(f"Status: {parsed['status']}")\nprint(f"User: {user['username']}")\nprint(f"Email: {user['email']}")\nprint(f"Followers: {user['stats']['followers']}")`,
-    solution_code: `import json\n\napi_response = '{"status": "success", "data": {"id": 42, "username": "alex_dev", "email": "alex@example.com", "stats": {"posts": 15, "followers": 230}}}'\n\nparsed = json.loads(api_response)\nuser = parsed["data"]\n\nprint(f"Status: {parsed['status']}")\nprint(f"User: {user['username']}")\nprint(f"Email: {user['email']}")\nprint(f"Followers: {user['stats']['followers']}")`,
+Print name, email, and city for user 1.`,
+    starter_code: `user = await fetch_json("https://jsonplaceholder.typicode.com/users/1")\nprint(f"User: {user['name']}")\nprint(f"Email: {user['email']}")\nprint(f"City: {user['address']['city']}")\nprint(f"Company: {user['company']['name']}")`,
+    solution_code: `user = await fetch_json("https://jsonplaceholder.typicode.com/users/1")\nprint(f"User: {user['name']}")\nprint(f"Email: {user['email']}")\nprint(f"City: {user['address']['city']}")\nprint(f"Company: {user['company']['name']}")`,
     validation_type: "contains",
-    validation_pattern: "Followers: 230",
-    hints: ["parsed['data'] gets the inner object.", "user['stats']['followers'] accesses nested data.", "Always check parsed['status'] first in real apps."],
+    validation_pattern: "Leanne Graham",
+    hints: ["The URL ends with /users/1 — that id is a real resource.", "Nested objects: user['address']['city'].", "Stay on HTTPS public APIs that allow CORS."],
   },
   {
     slug: "week6-level3-nested-json",
-    title: "Nested JSON Data",
+    title: "Loop Live Product JSON",
     phase: 2,
     day: 6,
     index_in_day: 3,
     level_type: "modify",
-    summary: "Navigate nested JSON structures and extract lists.",
-    lesson_content: `## Lists inside JSON
+    summary: "Total prices from DummyJSON's live catalog.",
+    lesson_content: `## Lists inside live JSON
 
-APIs often return **arrays** of items:
+[DummyJSON](https://dummyjson.com/docs/products) returns a \`products\` array you can loop.
 
 \`\`\`python
-response = '{"products": [{"name": "Widget", "price": 9.99}, {"name": "Gadget", "price": 24.50}]}'
-data = json.loads(response)
-
-for product in data["products"]:
-    print(product["name"], product["price"])
+catalog = await fetch_json("https://dummyjson.com/products?limit=3")
+for product in catalog["products"]:
+    print(product["title"], product["price"])
 \`\`\`
 
 ### Your task
 
-Complete the code to print each product name and calculate the total price.`,
-    starter_code: `import json\n\napi_response = '{"store": "TechShop", "products": [{"name": "Mouse", "price": 29.99}, {"name": "Keyboard", "price": 79.99}, {"name": "Monitor", "price": 299.99}]}'\n\ndata = json.loads(api_response)\nprint(f"Store: {data['store']}")\n\ntotal = 0\nfor product in data["products"]:\n    # Print name and price, add to total\n    pass\n\nprint(f"Total: \${total:.2f}")`,
-    solution_code: `import json\n\napi_response = '{"store": "TechShop", "products": [{"name": "Mouse", "price": 29.99}, {"name": "Keyboard", "price": 79.99}, {"name": "Monitor", "price": 299.99}]}'\n\ndata = json.loads(api_response)\nprint(f"Store: {data['store']}")\n\ntotal = 0\nfor product in data["products"]:\n    print(f"  {product['name']}: \${product['price']}")\n    total = total + product["price"]\n\nprint(f"Total: \${total:.2f}")`,
+Print each of the first 3 product titles and prices, then print the total.`,
+    starter_code: `catalog = await fetch_json("https://dummyjson.com/products?limit=3")\nprint(f"Count: {catalog['total']}")\n\ntotal = 0\nfor product in catalog["products"]:\n    # Print title and price, add to total\n    pass\n\nprint(f"Total: {total}")`,
+    solution_code: `catalog = await fetch_json("https://dummyjson.com/products?limit=3")\nprint(f"Count: {catalog['total']}")\n\ntotal = 0\nfor product in catalog["products"]:\n    print(f"  {product['title']}: {product['price']}")\n    total = total + product["price"]\n\nprint(f"Total: {total}")`,
     validation_type: "contains",
-    validation_pattern: "Total: $409.97",
-    hints: ["Loop through data['products'].", "Each product is a dict with name and price.", "Accumulate total in the loop."],
+    validation_pattern: "Total:",
+    hints: ["catalog['products'] is the list.", "Prices are live — totals can change; still print Total:.", "Add product['price'] inside the loop."],
   },
   {
     slug: "week6-level4-api-list",
-    title: "Loop Through API Results",
+    title: "Filter a Live User List",
     phase: 2,
     day: 6,
     index_in_day: 4,
     level_type: "exercise",
-    summary: "Process a list of users from a simulated API.",
-    lesson_content: `## Processing API lists
+    summary: "Filter JSONPlaceholder users by city.",
+    lesson_content: `## Filtering API lists
 
-Many APIs return paginated lists. Here's a simulated "users" endpoint:
-
-\`\`\`python
-users_json = '[{"name":"Alice","role":"admin"},{"name":"Bob","role":"user"}]'
-users = json.loads(users_json)
-\`\`\`
+Most job scripts: fetch a list, keep rows that match a rule.
 
 ### Your task
 
-Parse the users API response and print only users with role "admin". Count total users.`,
-    starter_code: `import json\n\nusers_api = '[{"name":"Alice","role":"admin","active":true},{"name":"Bob","role":"user","active":true},{"name":"Carol","role":"admin","active":false},{"name":"Dave","role":"user","active":true}]'\n\nusers = json.loads(users_api)\n\nadmin_count = 0\nprint("Admins:")\nfor user in users:\n    # Check role and print admin names\n    pass\n\nprint(f"Total users: {len(users)}")`,
-    solution_code: `import json\n\nusers_api = '[{"name":"Alice","role":"admin","active":true},{"name":"Bob","role":"user","active":true},{"name":"Carol","role":"admin","active":false},{"name":"Dave","role":"user","active":true}]'\n\nusers = json.loads(users_api)\n\nadmin_count = 0\nprint("Admins:")\nfor user in users:\n    if user["role"] == "admin":\n        print(f"  - {user['name']}")\n        admin_count = admin_count + 1\n\nprint(f"Total users: {len(users)}")\nprint(f"Admin count: {admin_count}")`,
+Load all users, print names in Gwenborough, then print total user count.`,
+    starter_code: `users = await fetch_json("https://jsonplaceholder.typicode.com/users")\n\nmatch_count = 0\nprint("Gwenborough:")\nfor user in users:\n    # Print names whose address city is Gwenborough\n    pass\n\nprint(f"Total users: {len(users)}")`,
+    solution_code: `users = await fetch_json("https://jsonplaceholder.typicode.com/users")\n\nmatch_count = 0\nprint("Gwenborough:")\nfor user in users:\n    if user["address"]["city"] == "Gwenborough":\n        print(f"  - {user['name']}")\n        match_count = match_count + 1\n\nprint(f"Total users: {len(users)}")\nprint(f"Match count: {match_count}")`,
     validation_type: "contains",
-    validation_pattern: "Admin count: 2",
-    hints: ['Check user["role"] == "admin".', "Print user['name'] for each admin.", "len(users) gives total count."],
+    validation_pattern: "Total users: 10",
+    hints: ["Check user['address']['city'] == 'Gwenborough'.", "JSONPlaceholder currently returns 10 users.", "Count matches while you loop."],
   },
   {
     slug: "week6-level5-deep-nested",
-    title: "Deep Nested Parsing",
+    title: "Live Multi-City Weather",
     phase: 2,
     day: 6,
     index_in_day: 5,
     level_type: "exercise",
-    summary: "Extract data from deeply nested JSON structures.",
-    lesson_content: `## Deep nesting
+    summary: "Call Open-Meteo twice and print Delhi and Mumbai temperatures.",
+    lesson_content: `## Several live requests
 
-Real API responses can be deeply nested:
+Automation often hits the same API with different parameters.
 
 \`\`\`python
-data = {
-  "response": {
-    "results": [
-      {"location": {"city": "Delhi", "temp": 28}}
-    ]
-  }
-}
-city = data["response"]["results"][0]["location"]["city"]
+cities = [
+    ("Delhi", 28.6139, 77.2090),
+    ("Mumbai", 19.0760, 72.8777),
+]
 \`\`\`
+
+Build the forecast URL for each pair of coordinates, then read \`current.temperature_2m\`.
 
 ### Your task
 
-Extract the city name and temperature from the weather API response.`,
-    starter_code: `import json\n\nweather_api = '{"response": {"status": 200, "results": [{"location": {"city": "Delhi", "country": "India"}, "current": {"temp_c": 28, "condition": "Partly cloudy"}}, {"location": {"city": "Mumbai", "country": "India"}, "current": {"temp_c": 32, "condition": "Sunny"}}]}}'\n\ndata = json.loads(weather_api)\nresults = data["response"]["results"]\n\nfor result in results:\n    # Extract city, temp, and condition for each\n    pass`,
-    solution_code: `import json\n\nweather_api = '{"response": {"status": 200, "results": [{"location": {"city": "Delhi", "country": "India"}, "current": {"temp_c": 28, "condition": "Partly cloudy"}}, {"location": {"city": "Mumbai", "country": "India"}, "current": {"temp_c": 32, "condition": "Sunny"}}]}}'\n\ndata = json.loads(weather_api)\nresults = data["response"]["results"]\n\nfor result in results:\n    city = result["location"]["city"]\n    temp = result["current"]["temp_c"]\n    condition = result["current"]["condition"]\n    print(f"{city}: {temp}°C, {condition}")`,
+Print \`City: {temp}°C\` for Delhi and Mumbai from live data.`,
+    starter_code: `cities = [\n    ("Delhi", 28.6139, 77.2090),\n    ("Mumbai", 19.0760, 72.8777),\n]\n\nfor name, lat, lon in cities:\n    url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&current=temperature_2m"\n    # Fetch JSON, print name and temperature\n    pass`,
+    solution_code: `cities = [\n    ("Delhi", 28.6139, 77.2090),\n    ("Mumbai", 19.0760, 72.8777),\n]\n\nfor name, lat, lon in cities:\n    url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&current=temperature_2m"\n    data = await fetch_json(url)\n    temp = data["current"]["temperature_2m"]\n    print(f"{name}: {temp}°C")`,
     validation_type: "contains",
-    validation_pattern: "Mumbai: 32°C",
-    hints: ["result['location']['city'] for city name.", "result['current']['temp_c'] for temperature.", "Chain brackets to go deeper."],
+    validation_pattern: "Mumbai:",
+    hints: ["await fetch_json(url) inside the loop.", "Temperature: data['current']['temperature_2m'].", "Print both city names so you can see two live readings."],
   },
   {
     slug: "week6-level6-html-intro",
-    title: "Web Scraping Concepts",
+    title: "Fetch Real HTML",
     phase: 2,
     day: 6,
     index_in_day: 6,
     level_type: "run",
-    summary: "Extract data from simulated HTML strings.",
-    lesson_content: `## Web Scraping Basics
+    summary: "Download example.com HTML and pull the page title.",
+    lesson_content: `## Web scraping starts with a GET
 
-**Web scraping** extracts data from web pages. HTML is just text with tags:
-
-\`\`\`html
-<h1>Product List</h1>
-<div class="product">Widget - $9.99</div>
-<div class="product">Gadget - $24.50</div>
-\`\`\`
-
-In the browser playground, we simulate HTML as a string and extract data with string methods or regex:
+\`fetch_text(url)\` returns the HTML string (like \`requests.get(url).text\`).
 
 \`\`\`python
-html = '<div class="price">$29.99</div>'
-start = html.find(">") + 1
-end = html.find("<", start)
-price = html[start:end]
+html = await fetch_text("https://example.com")
+start = html.find("<h1>") + 4
+end = html.find("</h1>")
+print(html[start:end])
 \`\`\`
 
-> Real scraping uses libraries like BeautifulSoup — here we learn the concepts!`,
-    starter_code: `html = —"<html>\n<body>\n  <h1>Store Products</h1>\n  <div class="product">Widget - $9.99</div>\n  <div class="product">Gadget - $24.50</div>\n  <div class="product">Tool - $15.00</div>\n</body>\n</html>—"\n\nlines = html.split("\\n")\nfor line in lines:\n    if "product" in line and "$" in line:\n        # Extract text between > and <\n        start = line.find(">") + 1\n        end = line.find("<", start)\n        product = line[start:end]\n        print(product)`,
-    solution_code: `html = —"<html>\n<body>\n  <h1>Store Products</h1>\n  <div class="product">Widget - $9.99</div>\n  <div class="product">Gadget - $24.50</div>\n  <div class="product">Tool - $15.00</div>\n</body>\n</html>—"\n\nlines = html.split("\\n")\nfor line in lines:\n    if "product" in line and "$" in line:\n        start = line.find(">") + 1\n        end = line.find("<", start)\n        product = line[start:end]\n        print(product)`,
+Respect robots.txt and terms of service on real sites. example.com is meant for this.
+
+### Your task
+
+Print the \`<h1>\` text from https://example.com.`,
+    starter_code: `html = await fetch_text("https://example.com")\nstart = html.find("<h1>") + 4\nend = html.find("</h1>")\ntitle = html[start:end].strip()\nprint(title)\nprint(f"HTML chars: {len(html)}")`,
+    solution_code: `html = await fetch_text("https://example.com")\nstart = html.find("<h1>") + 4\nend = html.find("</h1>")\ntitle = html[start:end].strip()\nprint(title)\nprint(f"HTML chars: {len(html)}")`,
     validation_type: "contains",
-    validation_pattern: "Gadget - $24.50",
-    hints: ["find('>') locates the end of opening tag.", "Text is between > and the next <.", "Check for 'product' in line to filter."],
+    validation_pattern: "Example Domain",
+    hints: ["Use fetch_text, not fetch_json — this URL returns HTML.", "find('<h1>') locates the heading.", "Desktop Python: requests + BeautifulSoup."],
   },
   {
     slug: "week6-level7-scrape-prices",
-    title: "Extract Prices from HTML",
+    title: "Average Live Product Prices",
     phase: 2,
     day: 6,
     index_in_day: 7,
     level_type: "exercise",
-    summary: "Use regex to extract prices from simulated HTML.",
-    lesson_content: `## Extracting with regex
+    summary: "Average the first four DummyJSON product prices.",
+    lesson_content: `## Numbers from a live catalog
 
-Regex is powerful for scraping patterns like prices:
-
-\`\`\`python
-import re
-html = '<span class="price">$29.99</span><span class="price">$49.99</span>'
-prices = re.findall(r'\\$[\\d.]+', html)
-\`\`\`
+Regex is useful on HTML. Here the API already parsed JSON — still extract and average like a price scraper.
 
 ### Your task
 
-Extract all prices from the HTML page and calculate the average.`,
-    starter_code: `import re\n\nhtml = —"<div class="listing">\n  <h2>Laptop Pro</h2><span class="price">$999.99</span>\n  <h2>Tablet Mini</h2><span class="price">$349.99</span>\n  <h2>Phone X</h2><span class="price">$799.99</span>\n  <h2>Earbuds</h2><span class="price">$79.99</span>\n</div>—"\n\n# Find all prices like $999.99\nprices = re.findall(r'\\$[\\d.]+', html)\n\n# Convert to floats and calculate average\n`,
-    solution_code: `import re\n\nhtml = —"<div class="listing">\n  <h2>Laptop Pro</h2><span class="price">$999.99</span>\n  <h2>Tablet Mini</h2><span class="price">$349.99</span>\n  <h2>Phone X</h2><span class="price">$799.99</span>\n  <h2>Earbuds</h2><span class="price">$79.99</span>\n</div>—"\n\nprices = re.findall(r'\\$[\\d.]+', html)\n\nprice_values = []\nfor p in prices:\n    value = float(p.replace("$", —))\n    price_values.append(value)\n    print(f"Found: {p}")\n\naverage = sum(price_values) / len(price_values)\nprint(f"Average price: \${average:.2f}")`,
+Fetch 4 products, print each price, print the average with two decimals.`,
+    starter_code: `catalog = await fetch_json("https://dummyjson.com/products?limit=4")\n\nprices = []\nfor product in catalog["products"]:\n    # Collect product['price'] and print it\n    pass\n\n# Print average`,
+    solution_code: `catalog = await fetch_json("https://dummyjson.com/products?limit=4")\n\nprices = []\nfor product in catalog["products"]:\n    price = product["price"]\n    prices.append(price)\n    print(f"Found: {price}")\n\naverage = sum(prices) / len(prices)\nprint(f"Average price: {average:.2f}")`,
     validation_type: "contains",
-    validation_pattern: "Average price: $557.49",
-    hints: ["re.findall(r'\\$[\\d.]+', html) finds all prices.", "Remove $ with .replace('$', '') before float().", "sum(price_values) / len(price_values) for average."],
+    validation_pattern: "Average price:",
+    hints: ["append each product['price'] to a list.", "average = sum(prices) / len(prices).", "Live catalog — the average will not match a textbook number."],
   },
   {
     slug: "week6-level8-debug-api",
-    title: "Debug API & HTML Parsing",
+    title: "Debug Live Fetch",
     phase: 2,
     day: 6,
     index_in_day: 8,
     level_type: "debug",
-    summary: "Fix JSON parsing and HTML extraction bugs.",
-    lesson_content: `## Debug: API & Scraping
+    summary: "Fix missing await and the wrong helper for JSON vs HTML.",
+    lesson_content: `## Debug: live APIs
 
 Common bugs:
-- Forgetting \`json.loads()\` on API strings
-- Using wrong key names (typo in dict access)
-- Off-by-one in string slicing
-- Regex pattern missing escape characters
+- Forgetting \`await\`
+- Using \`fetch_text\` on JSON (you get a string, not a dict)
+- Wrong nested keys
 
 ### Your task
 
-Fix the code to print: \`Title: Python Course | Price: $49.99\``,
-    starter_code: `import json\nimport re\n\napi = '{"title": "Python Course", "details": {"price": 49.99, "rating": 4.8}}'\nhtml = '<div id="course"><h1>Python Course</h1><p class="price">$49.99</p></div>'\n\n# Buggy parsing\ndata = api\nprice = data["details"]["price"]\n\nmatch = re.findall(r'\\d+.\\d+', html)\nhtml_price = "$" + match[0]\n\nprint(f"Title: {data['title']} | Price: {html_price}")`,
-    solution_code: `import json\nimport re\n\napi = '{"title": "Python Course", "details": {"price": 49.99, "rating": 4.8}}'\nhtml = '<div id="course"><h1>Python Course</h1><p class="price">$49.99</p></div>'\n\ndata = json.loads(api)\nprice = data["details"]["price"]\n\nmatch = re.findall(r'\\$[\\d.]+', html)\nhtml_price = match[0]\n\nprint(f"Title: {data['title']} | Price: {html_price}")`,
+Print the first JSONPlaceholder post title and the example.com h1.`,
+    starter_code: `post = fetch_json("https://jsonplaceholder.typicode.com/posts/1")\nhtml = await fetch_json("https://example.com")\n\nprint(f"Title: {post['title']}")\nprint(f"Page: {html}")`,
+    solution_code: `post = await fetch_json("https://jsonplaceholder.typicode.com/posts/1")\nhtml = await fetch_text("https://example.com")\nstart = html.find("<h1>") + 4\nend = html.find("</h1>")\npage = html[start:end].strip()\n\nprint(f"Title: {post['title']}")\nprint(f"Page: {page}")`,
     validation_type: "contains",
-    validation_pattern: "Price: $49.99",
-    hints: ["Use json.loads(api) not just api.", "Regex should include the $ sign.", "match[0] gets the first price found."],
+    validation_pattern: "sunt aut facere",
+    hints: ["JSON endpoints need await fetch_json.", "HTML endpoints need await fetch_text.", "Slice the h1 the same way as the previous lesson."],
   },
   {
     slug: "week6-level9-quiz",
@@ -251,60 +221,55 @@ Fix the code to print: \`Title: Python Course | Price: $49.99\``,
     day: 6,
     index_in_day: 9,
     level_type: "quiz",
-    summary: "Combine API parsing and HTML extraction.",
+    summary: "Combine live posts with a live weather reading.",
     lesson_content: `## Week 6 Checkpoint
 
-Given a simulated API response with articles, write code that:
-1. Parses the JSON
-2. Prints each article title
-3. Extracts the tag names from the simulated HTML snippet for each article
-
-Use the provided api_response string. Print "Articles: 3" at the end.`,
-    starter_code: `import json\nimport re\n\napi_response = '{"articles": [{"title": "Python Tips", "html": "<div><span class=\\"tag\\">python</span><span class=\\"tag\\">tutorial</span></div>"}, {"title": "API Guide", "html": "<div><span class=\\"tag\\">api</span><span class=\\"tag\\">json</span></div>"}, {"title": "Web Scraping", "html": "<div><span class=\\"tag\\">scraping</span><span class=\\"tag\\">html</span></div>"}]}'\n\ndata = json.loads(api_response)\n\nfor article in data["articles"]:\n    # Print title and extract tags from html\n    pass\n\nprint(f"Articles: {len(data['articles'])}")`,
-    solution_code: `import json\nimport re\n\napi_response = '{"articles": [{"title": "Python Tips", "html": "<div><span class=\\"tag\\">python</span><span class=\\"tag\\">tutorial</span></div>"}, {"title": "API Guide", "html": "<div><span class=\\"tag\\">api</span><span class=\\"tag\\">json</span></div>"}, {"title": "Web Scraping", "html": "<div><span class=\\"tag\\">scraping</span><span class=\\"tag\\">html</span></div>"}]}'\n\ndata = json.loads(api_response)\n\nfor article in data["articles"]:\n    title = article["title"]\n    tags = re.findall(r'class=\\"tag\\">([^<]+)', article["html"])\n    print(f"{title}: {tags}")\n\nprint(f"Articles: {len(data['articles'])}")`,
+1. Fetch \`https://jsonplaceholder.typicode.com/posts?userId=1\`
+2. Print the first 3 post titles
+3. Fetch Delhi weather from Open-Meteo
+4. Print \`Posts: {n}\` using the list length`,
+    starter_code: `posts = await fetch_json("https://jsonplaceholder.typicode.com/posts?userId=1")\n\nfor post in posts[:3]:\n    # Print each title\n    pass\n\nweather = await fetch_json("https://api.open-meteo.com/v1/forecast?latitude=28.6139&longitude=77.2090&current=temperature_2m")\nprint(f"Delhi: {weather['current']['temperature_2m']}°C")\nprint(f"Posts: {len(posts)}")`,
+    solution_code: `posts = await fetch_json("https://jsonplaceholder.typicode.com/posts?userId=1")\n\nfor post in posts[:3]:\n    print(post["title"])\n\nweather = await fetch_json("https://api.open-meteo.com/v1/forecast?latitude=28.6139&longitude=77.2090&current=temperature_2m")\nprint(f"Delhi: {weather['current']['temperature_2m']}°C")\nprint(f"Posts: {len(posts)}")`,
     validation_type: "contains",
-    validation_pattern: "Articles: 3",
-    hints: ["Loop through data['articles'].", "re.findall with a capture group extracts tag text.", "len(data['articles']) for the count."],
+    validation_pattern: "Posts: 10",
+    hints: ["userId=1 currently returns 10 posts.", "Print post['title'] in the loop.", "Weather numbers are live — still print Delhi:."],
   },
   {
     slug: "week6-level10-project",
-    title: "Week 6 Project — Data Dashboard",
+    title: "Week 6 Project — Live Data Dashboard",
     phase: 2,
     day: 6,
     index_in_day: 10,
     level_type: "project",
-    summary: "Build a dashboard from simulated API and HTML data.",
-    lesson_content: `## Week 6 Project 🎯
+    summary: "Build a dashboard from live weather plus live post titles.",
+    lesson_content: `## Week 6 Project
 
-Build a **Data Dashboard** that combines API parsing and web scraping!
+Build a **live Data Dashboard** — no pasted JSON blobs.
 
 ### Requirements
 
-1. Parse the simulated weather API JSON
-2. Parse the simulated news HTML
-3. Extract city temperatures and news headlines
-4. Print a formatted dashboard report
-5. Output a JSON summary with json.dumps()
+1. Fetch Open-Meteo for Delhi and Mumbai
+2. Fetch 3 posts from JSONPlaceholder (\`/posts?_limit=3\`)
+3. Print a formatted dashboard
+4. Print a JSON summary with \`json.dumps\`
 
-### Expected output format
+### Shape
 
 \`\`\`
 === Data Dashboard ===
 WEATHER:
-  Delhi: 28°C
-  Mumbai: 32°C
+  Delhi: 31.2°C
+  Mumbai: 29.4°C
 NEWS:
-  - Python 3.13 Released
-  - AI Tools for Developers
-  - Web Scraping Best Practices
+  - (live post titles)
 Summary: {"cities": 2, "articles": 3}
 \`\`\`
 
-All data is simulated — no network or file access needed!`,
-    starter_code: `import json\nimport re\n\nweather_api = '{"cities": [{"name": "Delhi", "temp": 28}, {"name": "Mumbai", "temp": 32}, {"name": "Chennai", "temp": 30}]}'\n\nnews_html = —"<html><body>\n<article><h2>Python 3.13 Released</h2></article>\n<article><h2>AI Tools for Developers</h2></article>\n<article><h2>Web Scraping Best Practices</h2></article>\n</body></html>—"\n\n# Parse weather API\n# Extract headlines from HTML\n# Print dashboard\n`,
-    solution_code: `import json\nimport re\n\nweather_api = '{"cities": [{"name": "Delhi", "temp": 28}, {"name": "Mumbai", "temp": 32}, {"name": "Chennai", "temp": 30}]}'\n\nnews_html = —"<html><body>\n<article><h2>Python 3.13 Released</h2></article>\n<article><h2>AI Tools for Developers</h2></article>\n<article><h2>Web Scraping Best Practices</h2></article>\n</body></html>—"\n\nweather = json.loads(weather_api)\nheadlines = re.findall(r'<h2>([^<]+)</h2>', news_html)\n\nprint("=== Data Dashboard ===")\nprint("WEATHER:")\nfor city in weather["cities"][:2]:\n    print(f"  {city['name']}: {city['temp']}°C")\n\nprint("NEWS:")\nfor headline in headlines:\n    print(f"  - {headline}")\n\nsummary = {"cities": len(weather["cities"]), "articles": len(headlines)}\nprint(f"Summary: {json.dumps(summary)}")`,
+Temperatures and titles come from the network. Keep the labels.`,
+    starter_code: `import json\n\ncities = [\n    ("Delhi", 28.6139, 77.2090),\n    ("Mumbai", 19.0760, 72.8777),\n]\n\nprint("=== Data Dashboard ===")\nprint("WEATHER:")\n# Fetch each city and print temperature\n\nposts = await fetch_json("https://jsonplaceholder.typicode.com/posts?_limit=3")\nprint("NEWS:")\n# Print each title\n\nsummary = {"cities": 2, "articles": len(posts)}\nprint(f"Summary: {json.dumps(summary)}")`,
+    solution_code: `import json\n\ncities = [\n    ("Delhi", 28.6139, 77.2090),\n    ("Mumbai", 19.0760, 72.8777),\n]\n\nprint("=== Data Dashboard ===")\nprint("WEATHER:")\nfor name, lat, lon in cities:\n    url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&current=temperature_2m"\n    data = await fetch_json(url)\n    print(f"  {name}: {data['current']['temperature_2m']}°C")\n\nposts = await fetch_json("https://jsonplaceholder.typicode.com/posts?_limit=3")\nprint("NEWS:")\nfor post in posts:\n    print(f"  - {post['title']}")\n\nsummary = {"cities": 2, "articles": len(posts)}\nprint(f"Summary: {json.dumps(summary)}")`,
     validation_type: "contains",
     validation_pattern: "Data Dashboard",
-    hints: ["json.loads(weather_api) for weather data.", "re.findall(r'<h2>([^<]+)</h2>', news_html) for headlines.", "Build summary dict and use json.dumps()."],
+    hints: ["Reuse the city loop from earlier today.", "posts is a list of dicts with title.", "json.dumps(summary) prints the compact JSON line."],
   },
 ];

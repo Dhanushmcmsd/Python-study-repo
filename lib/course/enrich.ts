@@ -1,97 +1,42 @@
 import type { Level } from "../types";
 
-const EXTRA_BLOCKS: Record<Level["level_type"], string> = {
-  concept: `
-
-## Deep Dive
-Take a moment to read each line in the code challenge below. Understanding *why* each word exists matters more than memorizing syntax.
-
-## Practice Mindset
-- Read the challenge code in the box below
-- Type it character by character in the editor
-- Run it and compare your output
-- If it fails, read the error — errors tell you exactly what went wrong
-
-## Stretch Goal
-Change strings, numbers, and messages. The mission still passes if the same Python tools (print, if, for, def, ...) run correctly.`,
-  run: `
-
-## Your Mission
-Type the code below exactly into the editor. Do not copy-paste — typing builds muscle memory.
-
-## Debugging Tip
-If you get an error, check: quotes closed? Parentheses matched? Spelling correct?
-
-## Real-World Use
-This pattern appears in almost every Python script you'll write. Master it here.`,
-  modify: `
-
-## Modify & Learn
-Start by typing the base code, then make the required changes. Small edits teach big concepts.
-
-## Checklist
-- [ ] Typed the full code yourself
-- [ ] Made the required modification
-- [ ] Output matches the expected result
-- [ ] You can explain what each line does`,
-  exercise: `
-
-## Exercise Protocol
-1. Read the lesson above carefully
-2. Study the code challenge in the box
-3. Type it in the editor from memory as much as possible
-4. Run and verify output
-
-## Common Mistakes
-Watch for indentation (Python cares about spaces), missing colons after if/for/def, and quote types.`,
-  debug: `
-
-## Debug Like a Pro
-Broken code is normal. Professionals spend 40% of their time fixing bugs.
-
-## Strategy
-1. Read the error message — it points to the line
-2. Check the line above too — errors often cascade
-3. Fix one bug at a time, then re-run`,
-  quiz: `
-
-## Quiz Mode
-No hints until you try. Write the code from what you remember from earlier lessons.
-
-## Recall Practice
-Saying concepts out loud while typing helps memory stick.`,
-  project: `
-
-## Project Build
-Combine everything from this week. Take your time — projects are where learning solidifies.
-
-## Deliverable
-Type the full solution, run it, and verify every line of output matches the spec.`,
+const TYPE_NOTE: Record<Level["level_type"], string> = {
+  concept: `\nType the example in the editor and run it.`,
+  run: `\nType the example in the editor and run it.`,
+  modify: `\nType the example, then make the change described above.`,
+  exercise: `\nWatch indentation, colons after if/for/def, and matching quotes.`,
+  debug: `\nRead the error, fix one issue, then run again.`,
+  quiz: `\nWrite this from earlier lessons. Exact wording is not required.`,
+  project: `\nCombine this week's tools. Exact wording is not required.`,
 };
 
 export function enrichLevel(level: Level): Level {
-  const extra = EXTRA_BLOCKS[level.level_type] ?? "";
+  const liveNote =
+    level.week === 6
+      ? `\n\nThis lesson uses live HTTPS. \`fetch_json(url)\` / \`fetch_text(url)\` are provided. On a laptop, use \`requests.get(url).json()\`.`
+      : level.slug === "week12-level10-project"
+        ? `\n\nAfter the compressor runs, use the ship panel to download or push the Streamlit app.`
+        : "";
+
   const challengeBlock = `
 
 ---
 
-## ⌨ Code Challenge — Type This
+## Code to type
 
 \`\`\`python
 ${level.solution_code}
 \`\`\`
 
-**Sample output** (yours can differ if you change text or numbers):
+Sample output (text, numbers, and live API values can differ):
 \`\`\`
 ${level.expected_output ?? level.validation_pattern ?? "Run your code to see output"}
 \`\`\`
-
-Use the same functions and structures as the challenge. Exact wording is not required.
 `;
 
   return {
     ...level,
-    lesson_content: level.lesson_content + extra + challengeBlock,
+    lesson_content: `${level.lesson_content}${liveNote}${TYPE_NOTE[level.level_type] ?? ""}${challengeBlock}`,
     starter_code: "",
   };
 }

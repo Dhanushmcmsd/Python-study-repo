@@ -293,7 +293,7 @@ Write a script that:
     index_in_day: 10,
     level_type: "project",
     summary: "Build a mini automation job runner with config, logging, and retries.",
-    lesson_content: `## Week 7 Project 🎯
+    lesson_content: `## Week 7 Project
 
 Build a **Job Runner** that simulates desktop automation.
 

@@ -66,9 +66,17 @@ function explainToken(token: string, context: string): TokenExplanation {
   if (clean === ",") return { token: clean, role: "Separates items in a list or function arguments" };
   if (clean === ".") return { token: clean, role: "Accesses an attribute or method on an object" };
   if (clean === "#") return { token: clean, role: "Starts a comment — Python ignores the rest of the line" };
+  if (clean === "await") return { token: clean, role: "Waits for a live network or async result before continuing" };
+  if (clean === "fetch_json") return { token: clean, role: "Loads JSON from a real HTTPS API (live response)" };
+  if (clean === "fetch_text") return { token: clean, role: "Loads HTML or text from a real HTTPS URL" };
   if (clean === 'f"' || clean === "f'") return { token: clean, role: "Starts an f-string — embeds variables inside text" };
-  if (/^["']/.test(clean) || /["']$/.test(clean))
-    return { token: clean, role: "A string (text) value" };
+  if (/^["']/.test(clean) || /["']$/.test(clean)) {
+    const role =
+      clean.length > 48
+        ? "Text or JSON payload. Prefer fetch_json() over pasting huge strings."
+        : "A string (text) value";
+    return { token: clean, role };
+  }
   if (/^\d/.test(clean)) return { token: clean, role: "A number value" };
   if (/^[a-zA-Z_]\w*$/.test(clean)) {
     if (context.includes("=") && context.indexOf(clean) < context.indexOf("="))
@@ -106,6 +114,8 @@ export function breakdownCode(code: string): LineBreakdown[] {
       summary = "Stores a value in memory so you can use it later.";
     else if (trimmed.startsWith("import") || trimmed.startsWith("from"))
       summary = "Brings in extra Python tools for this script.";
+    else if (trimmed.includes("fetch_json") || trimmed.includes("fetch_text"))
+      summary = "Calls a live internet API and stores the real response.";
 
     return { lineNumber: i + 1, code: line, tokens, summary };
   });

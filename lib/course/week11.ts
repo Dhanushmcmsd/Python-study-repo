@@ -24,8 +24,8 @@ Goal → Think → Pick Tool → Execute → Check → (repeat or finish)
 ### Simulated agents
 
 We simulate agents with Python functions and dicts — no real AI or network needed. The patterns you learn here apply directly to production agent frameworks.`,
-    starter_code: `# Agent loop preview\n\ndef run_tool(name, args):\n    tools = {"search": lambda q: f"Found: {q}", "done": lambda _: "Complete"}\n    return tools.get(name, lambda _: "Unknown")(args)\n\ngoal = "Find Python tutorials"\nstep1 = run_tool("search", goal)\nprint(step1)\nprint("Agent ready ✓")`,
-    solution_code: `def run_tool(name, args):\n    tools = {"search": lambda q: f"Found: {q}", "done": lambda _: "Complete"}\n    return tools.get(name, lambda _: "Unknown")(args)\n\ngoal = "Find Python tutorials"\nstep1 = run_tool("search", goal)\nprint(step1)\nprint("Agent ready ✓")`,
+    starter_code: `# Agent loop preview\n\ndef run_tool(name, args):\n    tools = {"search": lambda q: f"Found: {q}", "done": lambda _: "Complete"}\n    return tools.get(name, lambda _: "Unknown")(args)\n\ngoal = "Find Python tutorials"\nstep1 = run_tool("search", goal)\nprint(step1)\nprint("Agent ready")`,
+    solution_code: `def run_tool(name, args):\n    tools = {"search": lambda q: f"Found: {q}", "done": lambda _: "Complete"}\n    return tools.get(name, lambda _: "Unknown")(args)\n\ngoal = "Find Python tutorials"\nstep1 = run_tool("search", goal)\nprint(step1)\nprint("Agent ready")`,
     validation_type: "contains",
     validation_pattern: "Agent ready",
     hints: ["Agents loop: pick tool → run → check goal.", "Tools are just functions the agent can call."],
@@ -202,8 +202,8 @@ else:
 \`\`\`
 
 This prevents runaway agents from looping forever.`,
-    starter_code: `MAX_STEPS = 5\n\ndef agent_tick(step):\n    return {"step": step, "done": step >= 3}\n\nstate = {"step": 0, "done": False}\n\nfor i in range(MAX_STEPS):\n    state = agent_tick(i)\n    print(f"Step {i + 1}")\n    if state["done"]:\n        print("Goal reached ✓")\n        break\nelse:\n    print("Max steps reached ⚠")`,
-    solution_code: `MAX_STEPS = 5\n\ndef agent_tick(step):\n    return {"step": step, "done": step >= 3}\n\nstate = {"step": 0, "done": False}\n\nfor i in range(MAX_STEPS):\n    state = agent_tick(i)\n    print(f"Step {i + 1}")\n    if state["done"]:\n        print("Goal reached ✓")\n        break\nelse:\n    print("Max steps reached ⚠")`,
+    starter_code: `MAX_STEPS = 5\n\ndef agent_tick(step):\n    return {"step": step, "done": step >= 3}\n\nstate = {"step": 0, "done": False}\n\nfor i in range(MAX_STEPS):\n    state = agent_tick(i)\n    print(f"Step {i + 1}")\n    if state["done"]:\n        print("Goal reached")\n        break\nelse:\n    print("Max steps reached")`,
+    solution_code: `MAX_STEPS = 5\n\ndef agent_tick(step):\n    return {"step": step, "done": step >= 3}\n\nstate = {"step": 0, "done": False}\n\nfor i in range(MAX_STEPS):\n    state = agent_tick(i)\n    print(f"Step {i + 1}")\n    if state["done"]:\n        print("Goal reached")\n        break\nelse:\n    print("Max steps reached")`,
     validation_type: "contains",
     validation_pattern: "Goal reached",
     hints: ["The for-else runs else block only if loop wasn't broken.", "Agent finishes at step 4 (i=3)."],
@@ -259,7 +259,7 @@ Test with actions: \`"read"\`, \`"shutdown"\`, \`"done"\` and print each result.
     index_in_day: 10,
     level_type: "project",
     summary: "Build a guarded agent that processes a task queue with tools.",
-    lesson_content: `## Week 11 Project 🎯
+    lesson_content: `## Week 11 Project
 
 Build a **Task Automation Agent** with tools and guardrails.
 

@@ -33,7 +33,7 @@ Input: {user_text}
 —"
 \`\`\`
 
-In this course we **simulate** AI responses with Python logic — same patterns, no network calls.`,
+In this course, week 6 already called **live** HTTP APIs. Here we **simulate the model reply** with Python so you can practice prompt shape without an OpenAI key. The same prompt string is what you would POST to a real chat API.`,
     starter_code: `role = "You are a helpful classifier."\ntask = "Label the text as positive or negative."\noutput_format = '{"sentiment": "positive|negative"}'\nuser_text = "I love this product!"\n\nprompt = f—"Role: {role}\nTask: {task}\nFormat: {output_format}\n\nInput: {user_text}\n—"\n\nprint("=== Generated Prompt ===")\nprint(prompt)`,
     solution_code: `role = "You are a helpful classifier."\ntask = "Label the text as positive or negative."\noutput_format = '{"sentiment": "positive|negative"}'\nuser_text = "I love this product!"\n\nprompt = f—"Role: {role}\nTask: {task}\nFormat: {output_format}\n\nInput: {user_text}\n—"\n\nprint("=== Generated Prompt ===")\nprint(prompt)`,
     validation_type: "contains",
@@ -263,7 +263,7 @@ For message \`"The server returns a 500 error"\`:
     index_in_day: 10,
     level_type: "project",
     summary: "Build a support ticket router with prompts, classification, and JSON output.",
-    lesson_content: `## Week 9 Project 🎯
+    lesson_content: `## Week 9 Project
 
 Build an **AI Ticket Router** that processes a list of support messages.
 

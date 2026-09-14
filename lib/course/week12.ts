@@ -8,31 +8,21 @@ export const WEEK12_LEVELS: Level[] = [
     day: 12,
     index_in_day: 1,
     level_type: "concept",
-    summary: "Plan your final capstone: an AI Feedback Analyzer.",
+    summary: "Preview tests and structure before the DocPack compressor.",
     lesson_content: `## Week 12 Capstone
 
-You've learned pipelines, simulated AI, and agent patterns. Now combine them into a **real project**.
+You already practiced pipelines, tests, and agent-style functions. The **shippable** project is **DocPack**: a small app that compresses many documents into one ZIP, then goes to GitHub and a public URL.
 
-### AI Feedback Analyzer
+### What you will ship
 
-A tool that:
-1. Accepts customer feedback (strings)
-2. Classifies sentiment (simulated AI)
-3. Extracts topics and priorities
-4. Generates a summary report
+1. Core logic in this editor (\`zipfile\` + size report)
+2. A Streamlit app (\`compress_app.py\`) downloaded or pushed from this course
+3. A GitHub repo created from the ship panel
+4. Deploy on Streamlit Community Cloud (or Render)
 
-### Project structure
-
-\`\`\`
-helpers/     → utility functions
-analyzer/    → core logic
-tests/       → validation checks
-main         → orchestration
-\`\`\`
-
-We simulate this structure with functions in one script — the same organization applies to larger projects.`,
-    starter_code: `# Capstone preview — feedback analyzer skeleton\n\ndef analyze_feedback(text):\n    sentiment = "positive" if "great" in text.lower() else "negative"\n    return {"text": text, "sentiment": sentiment}\n\nfeedback = "The app is great but slow sometimes"\nresult = analyze_feedback(feedback)\nprint(f"Sentiment: {result['sentiment']}")\nprint("Capstone project begins ✓")`,
-    solution_code: `def analyze_feedback(text):\n    sentiment = "positive" if "great" in text.lower() else "negative"\n    return {"text": text, "sentiment": sentiment}\n\nfeedback = "The app is great but slow sometimes"\nresult = analyze_feedback(feedback)\nprint(f"Sentiment: {result['sentiment']}")\nprint("Capstone project begins ✓")`,
+Earlier levels this week still train testing and structure — those skills keep DocPack from breaking.`,
+    starter_code: `# Capstone preview — feedback analyzer skeleton\n\ndef analyze_feedback(text):\n    sentiment = "positive" if "great" in text.lower() else "negative"\n    return {"text": text, "sentiment": sentiment}\n\nfeedback = "The app is great but slow sometimes"\nresult = analyze_feedback(feedback)\nprint(f"Sentiment: {result['sentiment']}")\nprint("Capstone project begins")`,
+    solution_code: `def analyze_feedback(text):\n    sentiment = "positive" if "great" in text.lower() else "negative"\n    return {"text": text, "sentiment": sentiment}\n\nfeedback = "The app is great but slow sometimes"\nresult = analyze_feedback(feedback)\nprint(f"Sentiment: {result['sentiment']}")\nprint("Capstone project begins")`,
     validation_type: "contains",
     validation_pattern: "Capstone project begins",
     hints: ["The capstone combines pipelines, AI simulation, and reporting.", "Run the preview to see basic sentiment detection."],
@@ -55,12 +45,12 @@ def add(a, b):
 
 assert add(2, 3) == 5, "add failed"
 assert add(-1, 1) == 0, "add failed"
-print("All tests passed ✓")
+print("All tests passed")
 \`\`\`
 
 \`assert\` stops execution if the condition is False — catching bugs early.`,
-    starter_code: `def classify_sentiment(text):\n    if "love" in text.lower() or "great" in text.lower():\n        return "positive"\n    if "hate" in text.lower() or "terrible" in text.lower():\n        return "negative"\n    return "neutral"\n\n# Tests\nassert classify_sentiment("I love this") == "positive"\nassert classify_sentiment("This is terrible") == "negative"\nassert classify_sentiment("It works") == "neutral"\nprint("All tests passed ✓")`,
-    solution_code: `def classify_sentiment(text):\n    if "love" in text.lower() or "great" in text.lower():\n        return "positive"\n    if "hate" in text.lower() or "terrible" in text.lower():\n        return "negative"\n    return "neutral"\n\nassert classify_sentiment("I love this") == "positive"\nassert classify_sentiment("This is terrible") == "negative"\nassert classify_sentiment("It works") == "neutral"\nprint("All tests passed ✓")`,
+    starter_code: `def classify_sentiment(text):\n    if "love" in text.lower() or "great" in text.lower():\n        return "positive"\n    if "hate" in text.lower() or "terrible" in text.lower():\n        return "negative"\n    return "neutral"\n\n# Tests\nassert classify_sentiment("I love this") == "positive"\nassert classify_sentiment("This is terrible") == "negative"\nassert classify_sentiment("It works") == "neutral"\nprint("All tests passed")`,
+    solution_code: `def classify_sentiment(text):\n    if "love" in text.lower() or "great" in text.lower():\n        return "positive"\n    if "hate" in text.lower() or "terrible" in text.lower():\n        return "negative"\n    return "neutral"\n\nassert classify_sentiment("I love this") == "positive"\nassert classify_sentiment("This is terrible") == "negative"\nassert classify_sentiment("It works") == "neutral"\nprint("All tests passed")`,
     validation_type: "contains",
     validation_pattern: "All tests passed",
     hints: ["assert condition, 'message' fails if condition is False.", "Run to verify all three test cases pass."],
@@ -251,61 +241,60 @@ Fix this code to print \`Average score: 2.5\``,
     day: 12,
     index_in_day: 9,
     level_type: "quiz",
-    summary: "Quiz before the final capstone project.",
+    summary: "Report how many documents a compressor will pack.",
     lesson_content: `## Checkpoint
 
-Write \`build_feedback_report(feedback_list)\` that:
-1. Counts total entries
-2. Returns \`"Feedback Report: [n] entries analyzed"\`
+Write \`build_pack_report(filenames)\` that:
+1. Counts how many document names you were given
+2. Returns \`"DocPack: [n] files ready to compress"\`
 
-Test with a list of 3 feedback strings.`,
-    starter_code: `def build_feedback_report(feedback_list):\n    # Return formatted report string\n    pass\n\nfeedback = ["Great app", "Needs improvement", "Love the design"]\nprint(build_feedback_report(feedback))`,
-    solution_code: `def build_feedback_report(feedback_list):\n    count = len(feedback_list)\n    return f"Feedback Report: {count} entries analyzed"\n\nfeedback = ["Great app", "Needs improvement", "Love the design"]\nprint(build_feedback_report(feedback))`,
+Test with 3 file names.`,
+    starter_code: `def build_pack_report(filenames):\n    # Return formatted report string\n    pass\n\nfiles = ["invoice.pdf", "notes.txt", "photo.jpg"]\nprint(build_pack_report(files))`,
+    solution_code: `def build_pack_report(filenames):\n    count = len(filenames)\n    return f"DocPack: {count} files ready to compress"\n\nfiles = ["invoice.pdf", "notes.txt", "photo.jpg"]\nprint(build_pack_report(files))`,
     validation_type: "contains",
-    validation_pattern: "3 entries analyzed",
-    hints: ["Use len(feedback_list) for count.", "Return an f-string with the count."],
+    validation_pattern: "3 files ready",
+    hints: ["Use len(filenames) for count.", "Return an f-string with the count."],
   },
   {
     slug: "week12-level10-project",
-    title: "Week 12 Capstone — AI Feedback Analyzer",
+    title: "Week 12 Capstone — DocPack Compressor",
     phase: 3,
     day: 12,
     index_in_day: 10,
     level_type: "project",
-    summary: "Build the complete AI Feedback Analyzer capstone project.",
-    lesson_content: `## Week 12 Capstone 🎯
+    summary: "Compress several in-memory documents, then ship the Streamlit app to GitHub.",
+    lesson_content: `## Week 12 Capstone
 
-Build the **AI Feedback Analyzer** — your final project!
+Build **DocPack** — compress multiple documents so they take less space.
 
-### Requirements
+### In this editor
 
-1. \`normalize(text)\` — clean whitespace, lowercase
-2. \`simulate_ai_analyze(text)\` — return \`{"sentiment": "positive"|"negative"|"neutral", "topic": "billing"|"support"|"general"}\`
-   - "refund"/"billing" → topic billing
-   - "help"/"support" → topic support
-   - "great"/"love" → positive; "bad"/"hate" → negative
-3. \`process_batch(feedback_list)\` — analyze all, return list of results
-4. \`generate_report(results)\` — print summary with totals per sentiment
-5. Run on 4 sample feedback entries
+1. Put at least three documents in a dict: filename → text
+2. Write them into a ZIP with \`zipfile.ZipFile\` and \`ZIP_DEFLATED\`
+3. Print original byte size vs ZIP size
+4. Print \`SHIP READY\`
 
-### Sample data
+The browser cannot read files from your disk. Pretend the dict **is** the upload folder. The shipped Streamlit app uses a real multi-file uploader.
+
+### After it runs
+
+Use the **SHIP THIS PROJECT** panel:
+
+1. **Download ZIP** or **Push to my GitHub** (paste a token with \`repo\` scope — it is not stored)
+2. On [Streamlit Community Cloud](https://share.streamlit.io) create an app: repo → \`compress_app.py\`
+3. Upload real PDFs/photos and confirm the ZIP is smaller
+
+### Laptop equivalent
 
 \`\`\`python
-feedback = [
-    "Great product, love it!",
-    "Need help with my account",
-    "I want a refund please",
-    "The UI is bad and confusing",
-]
-\`\`\`
-
-### Expected output contains
-
-\`FEEDBACK ANALYZER REPORT\`, sentiment counts, and \`Analysis complete ✓\``,
-    starter_code: `def normalize(text):\n    pass\n\ndef simulate_ai_analyze(text):\n    pass\n\ndef process_batch(feedback_list):\n    pass\n\ndef generate_report(results):\n    pass\n\nfeedback = [\n    "Great product, love it!",\n    "Need help with my account",\n    "I want a refund please",\n    "The UI is bad and confusing",\n]\n\n# Run the full analyzer\n`,
-    solution_code: `def normalize(text):\n    return " ".join(text.split()).lower()\n\ndef simulate_ai_analyze(text):\n    t = text.lower()\n    if "refund" in t or "billing" in t:\n        topic = "billing"\n    elif "help" in t or "support" in t:\n        topic = "support"\n    else:\n        topic = "general"\n    if any(w in t for w in ["great", "love", "excellent"]):\n        sentiment = "positive"\n    elif any(w in t for w in ["bad", "hate", "terrible"]):\n        sentiment = "negative"\n    else:\n        sentiment = "neutral"\n    return {"sentiment": sentiment, "topic": topic}\n\ndef process_batch(feedback_list):\n    results = []\n    for fb in feedback_list:\n        cleaned = normalize(fb)\n        analysis = simulate_ai_analyze(cleaned)\n        results.append({"original": fb, **analysis})\n    return results\n\ndef generate_report(results):\n    print("=== FEEDBACK ANALYZER REPORT ===")\n    stats = {"positive": 0, "negative": 0, "neutral": 0}\n    for r in results:\n        stats[r["sentiment"]] += 1\n        print(f"  [{r['topic']}] {r['sentiment']}: {r['original'][:30]}")\n    print(f"---\\nPositive: {stats['positive']} | Negative: {stats['negative']} | Neutral: {stats['neutral']}")\n    print("Analysis complete ✓")\n\nfeedback = [\n    "Great product, love it!",\n    "Need help with my account",\n    "I want a refund please",\n    "The UI is bad and confusing",\n]\n\nresults = process_batch(feedback)\ngenerate_report(results)`,
+with zipfile.ZipFile("docpack.zip", "w", compression=zipfile.ZIP_DEFLATED) as zf:
+    for path in Path("inbox").iterdir():
+        zf.write(path, arcname=path.name)
+\`\`\``,
+    starter_code: `import io\nimport zipfile\n\ndocs = {\n    "notes.txt": "Meeting notes\\n" * 40,\n    "report.txt": "Quarterly report draft\\n" * 80,\n    "todo.txt": "- invoice\\n- compress files\\n" * 20,\n}\n\n# Pack docs into an in-memory ZIP and compare sizes\n`,
+    solution_code: `import io\nimport zipfile\n\ndocs = {\n    "notes.txt": "Meeting notes\\n" * 40,\n    "report.txt": "Quarterly report draft\\n" * 80,\n    "todo.txt": "- invoice\\n- compress files\\n" * 20,\n}\n\noriginal = sum(len(text.encode("utf-8")) for text in docs.values())\nbuf = io.BytesIO()\nwith zipfile.ZipFile(buf, "w", compression=zipfile.ZIP_DEFLATED) as archive:\n    for name, text in docs.items():\n        archive.writestr(name, text)\n\npacked = len(buf.getvalue())\nprint(f"Files: {len(docs)}")\nprint(f"Original: {original} bytes")\nprint(f"Compressed ZIP: {packed} bytes")\nprint("SHIP READY")`,
     validation_type: "contains",
-    validation_pattern: "FEEDBACK ANALYZER REPORT",
-    hints: ["Build normalize and simulate_ai_analyze first, test each.", "process_batch loops and collects results.", "generate_report counts sentiments and prints each entry."],
+    validation_pattern: "SHIP READY",
+    hints: ["import io and zipfile.", "zipfile.ZipFile(buf, 'w', compression=zipfile.ZIP_DEFLATED).", "archive.writestr(name, text) for each document.", "Print SHIP READY when the size report is done."],
   },
 ];

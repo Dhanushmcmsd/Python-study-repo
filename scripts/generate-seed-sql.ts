@@ -1,5 +1,3 @@
-import { writeFileSync } from "fs";
-import { join } from "path";
 import { LEVELS } from "../lib/courseContent";
 
 function escapeSql(str: string): string {
@@ -44,6 +42,5 @@ const inserts = LEVELS.map((level) => {
 });
 
 const sql = inserts.join("\n\n");
-const outPath = join(__dirname, "seed-levels.sql");
-writeFileSync(outPath, sql, "utf8");
-console.log(`Wrote ${LEVELS.length} inserts to ${outPath}`);
+process.stdout.write(sql);
+console.error(`Generated ${LEVELS.length} upserts (stdout).`);

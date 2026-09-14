@@ -280,7 +280,7 @@ Given simulated PDF text, extract the invoice ID and build a one-line CSV + emai
     index_in_day: 10,
     level_type: "project",
     summary: "Build a full office automation pipeline: extract, report, email.",
-    lesson_content: `## Week 8 Project 🎯
+    lesson_content: `## Week 8 Project
 
 Build an **Office Report Pipeline** that:
 
